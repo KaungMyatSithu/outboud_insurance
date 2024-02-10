@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.ace.insurance.outbound_insurance.enumeration.Gender;
-import org.ace.insurance.outbound_insurance.enumeration.MaritalStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,40 +14,33 @@ import java.util.UUID;
 @Entity
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "insured_person")
-public class InsuredPerson {
+@NoArgsConstructor
+@Table(name = "outbound_proposal")
+public class OutboundProposal {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String insuredName;
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate insuredDOB;
-    private String insuredPhoneNumber;
-    private String foreignContactNumber;
-    private String fatherName;
-    private String race;
-    private String occupation;
-    private String insuredEmail;
-    private String insuredAddress;
-    private String insuredAddressAbroad;
-    private String passportNumber;
-    private String passportIssueCountry;
-    private boolean isChild;
-
+    private LocalDate submittedDate;
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate passportIssuedDate;
+    private LocalDate policyStartDate;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate policyEndDate;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate estimateDepartureDate;
+    private String journeyFrom;
+    private String journeyTo;
+    private int coveragePlan;
+    private int packages;
+    private double premiumRate;
 
-    @Enumerated(EnumType.STRING)
-    private Gender insuredGender;
-    @Enumerated(EnumType.STRING)
-    private MaritalStatus maritalStatus;
+    //relation
+    @ManyToOne
+    private InsuredPerson insuredPerson;
+    @ManyToOne
+    private Agent agent;
 
-
-    //Relation
-    @OneToOne
-    private Beneficiary beneficiary;
 
     //create,update,version
     private UUID createdUserID;

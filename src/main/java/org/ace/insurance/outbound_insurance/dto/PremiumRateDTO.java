@@ -12,10 +12,10 @@ import java.util.UUID;
 @NoArgsConstructor
 
 public class PremiumRateDTO {
-    private String coveragePlan;
+    private int coveragePlan;
     private int fromAge;
     private int toAge;
     private double rate;
-    private String packages;
+    private int packages;
     private UUID currencyID;
 }

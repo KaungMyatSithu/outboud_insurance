@@ -20,11 +20,11 @@ public class PremiumRate {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String coveragePlan;
+    private int coveragePlan;
     private int fromAge;
     private int toAge;
     private double rate;
-    private String packages;
+    private int packages;
     private UUID createUserId;
     private LocalDateTime createDate;
     private UUID updateUserId;

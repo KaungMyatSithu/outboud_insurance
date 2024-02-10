@@ -36,16 +36,15 @@ public class AgentServiceImpl implements AgentService {
 
     }
 
-//    @Override
-//    public Agent findAgentByAgentLicenseAndAgentDOB(String agentLicense, LocalDate agentDOB) {
-//        return agentRepository.findAgentByAgentLicenseAndAgentDOB(agentLicense,agentDOB);
-//    }
-//
-//
-//
-//    @Override
-//    public Agent findAgentByAgentLicenseAndAgentPassword(String agentLicense, String agentPassword) {
-//        return agentRepository.findAgentByAgentLicenseAndAgentPassword(agentLicense,agentPassword);
-//    }
+    @Override
+    public Agent findAgentByAgentLicenseAndAgentDOB(String agentLicense, LocalDate agentDOB,String agentType) {
+        return agentRepository.findAgentByAgentLicenseAndAgentDOBAndAgentType(agentLicense,agentDOB,agentType);
+    }
+
+    @Override
+    public Agent findAgentByAgentLicenseAndAgentPassword(String agentLicense, String agentPassword,String agentType) {
+        return agentRepository.findAgentByAgentLicenseAndAgentPasswordAndAgentType(agentLicense,agentPassword,agentType);
+    }
+
 
 }

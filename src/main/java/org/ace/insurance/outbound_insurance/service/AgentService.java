@@ -8,8 +8,8 @@ import java.time.LocalDate;
 public interface AgentService {
     Agent Create(AgentDTO agentDTO);
 
-//    Agent findAgentByAgentLicenseAndAgentDOB(String agentLicense, LocalDate agentDOB);
-//    Agent findAgentByAgentLicenseAndAgentPassword(String agentLicense, String agentPassword);
+    Agent findAgentByAgentLicenseAndAgentDOB(String agentLicense, LocalDate agentDOB,String agentType);
+    Agent findAgentByAgentLicenseAndAgentPassword(String agentLicense, String agentPassword,String agentType);
 
 
 }

@@ -9,9 +9,9 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public interface AgentRepository extends JpaRepository<Agent, UUID> {
-//    @Query("select a.agentLicense,a.agentName FROM Agent a WHERE a.agentLicense =:inPutAgentLicense and a.agentDOB =: inPutAgentDOB")
-//        Agent findAgentByAgentLicenseAndAgentDOB(@Param("inPutAgentLicense") String inputAgentLicenseNo,@Param("inPutAgentDOB") LocalDate inPutAgentDOB);
-//
-//    @Query("select a.agentLicense,a.agentName FROM Agent a WHERE a.agentLicense = : inPutAgentLicenseNo and a.agentPassword =: inPutAgentPassword")
-//      Agent findAgentByAgentLicenseAndAgentPassword(@Param("inPutAgentLicense") String inputAgentLicenseNo,@Param("inPutAgentPassword") String inPutAgentPassword);
+    Agent findAgentByAgentLicenseAndAgentDOBAndAgentType( String inputAgentLicenseNo,LocalDate inPutAgentDOB,String agentType);
+
+    Agent findAgentByAgentLicenseAndAgentPasswordAndAgentType( String inputAgentLicenseNo, String inPutAgentPassword,String agentType);
+
+
 }

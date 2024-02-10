@@ -17,8 +17,29 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class InsuredPersonDTO {
+public class OutboundProposalDTO {
     private UUID id;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate estimateDepartureDate;
+    private String journeyFrom;
+    private String journeyTo;
+    private int coveragePlan;
+    private int packages;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate policyStartDate;
+
+
+    //beneficiaryAttribute
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate beneficiaryDOB;
+    private String beneficiaryName;
+    private String beneficiaryRelationship;
+    private String beneficiaryPhoneNumber;
+    private String beneficiaryNRC;
+    private String beneficiaryEmail;
+    private String beneficiaryAddress;
+
+    //InsuredPersonAttribute
     private String insuredName;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate insuredDOB;
@@ -30,8 +51,8 @@ public class InsuredPersonDTO {
     private String insuredEmail;
     private String insuredAddress;
     private String insuredAddressAbroad;
-    private String passportNumber;
     private String passportIssueCountry;
+    private String passportNumber;
     private boolean isChild;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
@@ -41,7 +62,19 @@ public class InsuredPersonDTO {
     private Gender insuredGender;
     @Enumerated(EnumType.STRING)
     private MaritalStatus maritalStatus;
-    private UUID beneficiaryID;
+
+    //ChildAttribute
+    private String childName;
+    private String guardianceName;
+    private String childRelationship;
 
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate childDOB;
+
+    @Enumerated(EnumType.STRING)
+    private Gender childGender;
+
+    //AgentAttribute
+    private UUID agentID;
 }

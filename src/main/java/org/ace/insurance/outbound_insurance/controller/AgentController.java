@@ -30,37 +30,23 @@ public class AgentController {
         return createResponse(agent,HttpStatus.CREATED);
     }
 
+    @GetMapping("/checkVerification")
+    public ResponseEntity<HttpResponse<Agent>> checkVerification(@RequestParam("inPutAgentLicense") String agentLicense,
+                                                                 @RequestParam("inPutAgentDOB")  LocalDate agentDOB,
+                                                                 @RequestParam("agentType")String agentType) {
+        Agent agent = agentService.findAgentByAgentLicenseAndAgentDOB(agentLicense, agentDOB,agentType);
 
-//    @GetMapping("/checkVerification")
-//    public ResponseEntity<Map<String, LocalDate>> checkVerification(@RequestParam("inPutAgentLicense") String agentLicense,
-//                                                                    @RequestParam("inPutAgentDOB") String agentDOBString) {
-//        LocalDate agentDOB = LocalDate.parse(agentDOBString);
-//
-//        Agent agent = agentService.findAgentByAgentLicenseAndAgentDOB(agentLicense, agentDOB);
-//        if (agent != null) {
-//            Map<String,LocalDate> response = new HashMap<>();
-//            response.put("agentLicenseNo", agent.getAgentLicense());
-//            response.put("agentName", agent.getAgentName());
-//            return ResponseEntity.ok(response);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-//        }
-//    }
-//
-//
-//    @GetMapping("/checkAssociation")
-//    public ResponseEntity <Map<String,String>> checkAssociation(@RequestParam("inPutAgentLicense") String agentLicense,
-//                                                                @RequestParam("inPutAgentPassword") String agentPassword){
-//        Agent agent = agentService.findAgentByAgentLicenseAndAgentPassword(agentLicense,agentPassword);
-//        if (agent !=null){
-//            Map<String,String> response = new HashMap<>();
-//            response.put("agentLicenseNo",agent.getAgentLicense());
-//            response.put("agentName",agent.getAgentName());
-//            return ResponseEntity.ok(response);
-//        }else {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-//        }
-//    }
+        return createResponse(agent,HttpStatus.OK);
+    }
+
+    @GetMapping("/checkAssociation")
+    public ResponseEntity <HttpResponse<Agent>> checkAssociation(@RequestParam("inPutAgentLicense") String agentLicense,
+                                                                 @RequestParam("inPutAgentPassword") String agentPassword,
+                                                                 @RequestParam("agentType")String agentType) {
+        Agent agent = agentService.findAgentByAgentLicenseAndAgentPassword(agentLicense, agentPassword,agentType);
+
+        return createResponse(agent, HttpStatus.OK);
+    }
 
 
 }
