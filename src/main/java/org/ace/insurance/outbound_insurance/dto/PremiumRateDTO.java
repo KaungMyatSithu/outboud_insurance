@@ -16,6 +16,10 @@ public class PremiumRateDTO {
     private int fromAge;
     private int toAge;
     private double rate;
+<<<<<<< HEAD
     private int packages;
+=======
+    private double packages;
+>>>>>>> ae4ad985c159792b65c85a294cf0ac47f941488b
     private UUID currencyID;
 }
