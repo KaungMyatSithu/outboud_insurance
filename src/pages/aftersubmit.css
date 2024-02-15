@@ -1,0 +1,56 @@
+.confirm_container {
+  background-color: #f3f3f3;
+  padding: 20px 0;
+}
+.confirm_form {
+  width: 90%;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 40px 0 20px;
+  box-shadow: -1px -1px 1px rgb(0, 0, 0, 0.5);
+}
+.confirm_form h2 {
+  margin-bottom: 20px;
+}
+.inline_form {
+  width: 90%;
+  margin: 0 auto;
+}
+.titles {
+  margin: 20px 0;
+  font-weight: bold;
+  font-size: 20px;
+  text-decoration: underline;
+}
+.information_card {
+  margin: 2px 0;
+  background-color: #fff44c;
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+}
+.information_card p {
+  font-size: 18px;
+  color: #000;
+}
+.information_name {
+  width: 40%;
+  font-weight: bold;
+}
+.information_detail {
+  font-weight: 400;
+}
+.information_card--normal {
+  background-color: transparent;
+  border-bottom: 2px solid rgb(0, 0, 0, 0.3);
+}
+.confirm_btn {
+  margin: 20px;
+  padding: 10px 30px;
+  color: #fff;
+  background-color: #074da1;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 18px;
+}

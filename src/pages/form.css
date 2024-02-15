@@ -1,0 +1,217 @@
+label {
+  color: #074da1;
+}
+.form {
+  background-color: #f3f3f3;
+}
+.form_container {
+  width: 90%;
+  margin: 0 auto;
+}
+.form_container h2 {
+  text-align: center;
+  padding: 20px 0;
+}
+.form_page {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: -1px -1px 1px rgb(0, 0, 0, 0.5);
+}
+
+.red {
+  color: red;
+}
+.bloc {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.card {
+  margin: 10px 0;
+  width: 32%;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+}
+.card label {
+  font-weight: 600;
+}
+.card--grey {
+  background-color: #f3f3f3;
+  font-size: 14px;
+}
+.card textarea {
+  resize: none;
+  width: 85%;
+  height: 12vh;
+  font-size: 16px;
+}
+.card input {
+  width: 80%;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+.card_select {
+  font-size: 14px;
+  background-color: #fff;
+  width: 85%;
+  padding: 5px 10px;
+  color: rgb(0, 0, 0, 0.5);
+}
+.card--selected {
+  color: #000;
+}
+
+.card_select--grey {
+  background-color: #f3f3f3;
+  color: #000;
+}
+.type,
+.type--child {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+.type {
+  width: 30%;
+}
+.type input,
+.type--child input {
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+}
+.persontype {
+  display: flex;
+}
+.phone_number {
+  display: flex;
+  width: 85%;
+}
+.phone_number select {
+  width: 30%;
+}
+.marital {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.marital_status {
+  width: 30%;
+  display: flex;
+}
+.marital_status input {
+  width: 16%;
+  margin-right: 10px;
+}
+.marital_status label {
+  font-size: 18px;
+}
+.agents,
+.child {
+  margin: 20px 0;
+  background-color: #e0e0e0;
+  padding: 20px;
+}
+.agentType {
+  display: flex;
+  width: 70%;
+}
+.agentType_content {
+  display: flex;
+  margin: 0 20px 0 0;
+  align-items: center;
+}
+.agentType_content input {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+}
+.agent_iconbar {
+  display: flex;
+  background-color: #fff;
+  align-items: center;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid rgb(0, 0, 0, 0.4);
+}
+.agent_iconbar img {
+  width: 100%;
+}
+
+.agent_iconbar p {
+  padding: 0 10px;
+}
+.agent_iconbar--selected {
+  border: 2px solid yellow;
+  box-shadow: 1px 1px 1px rgb(0, 0, 0, 0.5);
+}
+.personal_agent {
+  display: flex;
+}
+
+.personal_field {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+}
+.personal_field label {
+  padding: 15px 0 8px;
+  font-weight: bold;
+}
+.personal_field input {
+  border: 2px solid rgb(0, 0, 0, 0.4);
+  padding: 5px 10px;
+  width: 80%;
+}
+.agent_btn {
+  background-color: transparent;
+  border: 0;
+  text-decoration: underline;
+  color: #074da1;
+  padding-top: 20px;
+}
+.form_btn {
+  background-color: #074da1;
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 18px;
+  border-radius: 5px;
+}
+.agent_img {
+  width: 25px;
+  height: 25px;
+}
+.options {
+  position: absolute;
+  top: 80px;
+  height: auto;
+  overflow-y: scroll;
+  background-color: #fff;
+  z-index: 100;
+  border: 1px solid black;
+  width: 85%;
+}
+.options_option {
+  border-bottom: 1px solid black;
+  padding: 5px 10px;
+  font-size: 20px;
+}
+.options_option:hover{
+  background-color: #EEE;
+}
+.options_option:last-child {
+  border-bottom: 0;
+}
+.options__border {
+  border: 0;
+}
+.options::-webkit-scrollbar {
+  display: none;
+}
+
+.options {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

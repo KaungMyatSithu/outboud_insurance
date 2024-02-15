@@ -1,0 +1,42 @@
+.container{
+    width: 90%;
+    margin:0 auto;
+    height: 600vh;
+}
+/* #074DA1 */
+.topic h3 ,.topic p{
+    margin: 10px 0;
+    color: #074DA1;
+}
+.topic h2{
+    margin: 30px 0 10px;
+    color: #074DA1;
+}
+.about{
+    
+    width: 60%;
+    border: 1px solid black;
+    border-right: 0;
+    border-bottom: 0;
+}
+.about_col{
+    display: flex;
+}
+.about_col p {
+    padding: 5px;
+    color: #074DA1;
+    border: 1px solid black;
+    border-left: 0;
+    border-top: 0;
+    
+}
+.about_title{
+    font-weight: bold;
+    width: 30%;
+}
+.about_description{
+    width: 70%;
+}
+.premium{
+    margin-top: 40px;
+}
