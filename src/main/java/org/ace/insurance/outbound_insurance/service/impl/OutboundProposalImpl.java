@@ -1,10 +1,7 @@
 package org.ace.insurance.outbound_insurance.service.impl;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ace.insurance.outbound_insurance.dto.OutboundProposalDTO;
-import org.ace.insurance.outbound_insurance.dto.PremiumRateDTO;
 import org.ace.insurance.outbound_insurance.entity.*;
 import org.ace.insurance.outbound_insurance.repository.*;
 import org.ace.insurance.outbound_insurance.service.OutboundProposalService;
@@ -12,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
 import java.time.LocalDate;
-import java.time.Period;
 
 
 @Service
@@ -126,6 +121,14 @@ public class OutboundProposalImpl implements OutboundProposalService {
             throw new RuntimeException("Optimistic locking conflict");
         }
     }
+
+    @Override
+    public OutboundProposal searchEnquiry(String passportNo, String passportIssueCountry) {
+        OutboundProposal outboundProposal = outboundProposalRepo.findByInsuredPersonPassportNumberAndInsuredPersonPassportIssueCountry(passportNo,passportIssueCountry);
+        return outboundProposal;
+    }
+
+
     private LocalDate policyEndDate(OutboundProposalDTO outboundProposalDTO){
         LocalDate policyStartDate = outboundProposalDTO.getEstimateDepartureDate();
         LocalDate policyEndDate = policyStartDate.plusDays(outboundProposalDTO.getCoveragePlan());
