@@ -1,8 +1,14 @@
 import React from "react";
 import MyDocument from "./MyDocument";
 import { PDFViewer } from "@react-pdf/renderer";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {faXmark} from "@fortawesome/free-solid-svg-icons"
 
-const PdfOverlay = () => {
+
+const PdfOverlay = ({back}) => {
+  function backHandler(){
+    back(false)
+  }
   return (
     <div
       style={{
@@ -19,10 +25,13 @@ const PdfOverlay = () => {
       }}
       id="root"
     >
-      <div style={{ width: "80%", height: "100%" }}>
+      <div style={{ width: "80%", height: "100%" ,display:"flex"}}>
         <PDFViewer width={"100%"} height={"100%"}>
           <MyDocument />
         </PDFViewer>
+        
+        <FontAwesomeIcon icon={faXmark} style={{backgroundColor:"#074da1", padding:"15px 17px",borderRadius:"50%" , fontSize:"20px", color:"white" ,margin: "5px" }} onClick={backHandler}/>
+        
       </div>
     </div>
   );

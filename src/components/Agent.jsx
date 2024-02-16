@@ -5,10 +5,16 @@ import Field from "../pages/Field";
 import "./agent.css";
 import DatePicker from "react-datepicker";
 
-const Agent = ({ props, item }) => {
+const Agent = ({ props, item , userclick}) => {
   const [agentBirthDate, setAgentBirthDate] = useState();
   const [message, setMessage] = useState();
   const [data, setData] = useState({});
+  useEffect(()=>{
+    if(userclick){
+      setData({...data,license: userclick.license})
+      setAgentBirthDate(userclick.date)
+    }
+  },[userclick])
   useEffect(() => {
     if (message) {
       props(message);
@@ -45,9 +51,10 @@ const Agent = ({ props, item }) => {
               type="text"
               placeholder="ENTER AGENT LICENSE NO."
               name="license"
+              value={data.license}
               onChange={(e) => setData({ ...data, license: e.target.value })}
             />
-            <Field />
+            {userclick.userclick && !data.license && <Field />}
           </div>
           <div className="agent_license">
             <label>
@@ -57,9 +64,10 @@ const Agent = ({ props, item }) => {
               className="agent_date"
               placeholderText="DD-MM-YYYY"
               selected={agentBirthDate}
+              value={agentBirthDate}
               onChange={(date)=> setAgentBirthDate(date)}
             />
-            <Field />
+            {userclick.userclick && !agentBirthDate && <Field />}
           </div>
         </div>
         <button className="agent_submit" onClick={agentData}>

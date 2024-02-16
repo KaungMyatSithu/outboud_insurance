@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Field from "../pages/Field";
 import "./agent.css";
 
-const Associative = ({ props, item }) => {
+const Associative = ({ props, item , userclick }) => {
   const [agentBirthDate, setAgentBirthDate] = useState();
   const [data, setData] = useState({});
   const [message, setMessage] = useState();
@@ -23,6 +23,11 @@ const Associative = ({ props, item }) => {
       item(data);
     }
   }
+  useEffect(()=>{
+    if(userclick){
+      setData({...data,license: userclick.license, password: userclick.password})
+    }
+  },[userclick])
   return (
     <div className="overlay">
       <div className="agent_container">
@@ -44,19 +49,20 @@ const Associative = ({ props, item }) => {
               type="text"
               placeholder="ENTER AGENT LICENSE NO."
               name="license"
+              value={data.license}
               onChange={(e) => setData({ ...data, license: e.target.value })}
             />
-            <Field />
+            {userclick.userclick && !data.license && <Field />}
           </div>
           <div className="agent_license">
             <label>
-              Date Of Birth <span className="red">*</span>
+              Password <span className="red">*</span>
             </label>
-            <input type="password" placeholder="00-0000" onChange={(e) => setData({ ...data, password: e.target.value })}/>
-            <Field />
+            <input type="password" placeholder="00-0000" value={data.password} onChange={(e) => setData({ ...data, password: e.target.value })}/>
+            {userclick.userclick && !data.password && <Field />}
           </div>
         </div>
-        <button className="agent_submit">Check Agent</button>
+        <button className="agent_submit" onClick={agentData}>Check Agent</button>
       </div>
     </div>
   );

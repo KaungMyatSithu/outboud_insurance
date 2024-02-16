@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PdfOverlay from "./PdfOverlay";
 import "./success.css";
 import { faCheck, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Success = () => {
+const Success = ({back}) => {
   const [pdf, setPdf] = useState(null);
   const now = new Date();
+  function back(value){
+    setPdf(value)
+  }
   return (
     <div className="success_container">
       <div className="success_form">
@@ -42,7 +45,7 @@ const Success = () => {
           <FontAwesomeIcon icon={faDownload} className="download_btn" />
           Download Policy Certificate
         </button>
-        {pdf && <PdfOverlay />}
+        {pdf && <PdfOverlay back={back}/>}
       </div>
     </div>
   );

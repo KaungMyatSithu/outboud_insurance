@@ -6,7 +6,7 @@ import axios from "axios";
 const AfterSubmit = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const [items, setItem] = useState({});
   useEffect(() => {
     if (location?.state) {
@@ -138,6 +138,61 @@ const AfterSubmit = () => {
                     items.estimateDepartureDate.toLocaleDateString()}{" "}
                 </p>
               </div>
+              {items.childName && (
+                <div className="information_card information_card--normal">
+                  <p className="information_name">
+                    Child Name
+                    <br />
+                    ကလေးအမည်
+                  </p>
+                  <p className="information_detail">{items.childName}</p>
+                </div>
+              )}
+              {items.childDOB && (
+                <div className="information_card information_card--normal">
+                  <p className="information_name">
+                    Date of Birth (Child)
+                    <br />
+                    မွေးသက္ကရာဇ်
+                  </p>
+                  <p className="information_detail">
+                    {items.childDOB.toLocaleDateString()}
+                  </p>
+                </div>
+              )}
+              {items.childGender && (
+                <div className="information_card information_card--normal">
+                  <p className="information_name">
+                    Gender (Child)
+                    <br />
+                    ကျား/မ
+                  </p>
+                  <p className="information_detail">{items.childGender}</p>
+                </div>
+              )}
+              {items.guardianceName && (
+                <div className="information_card information_card--normal">
+                  <p className="information_name">
+                    Guardiance Name (Child)
+                    <br />
+                    အုပ်ထိန်းသူအမည်
+                  </p>
+                  <p className="information_detail">{items.guardianceName}</p>
+                </div>
+              )}
+              {items.childRelationship && (
+                <div className="information_card information_card--normal">
+                  <p className="information_name">
+                    Relationship (Child)
+                    <br />
+                    တော်စပ်ပုံ
+                  </p>
+                  <p className="information_detail">
+                    {items.childRelationship}
+                  </p>
+                </div>
+              )}
+
               <div className="information_card information_card--normal">
                 <p className="information_name">
                   Journey From
