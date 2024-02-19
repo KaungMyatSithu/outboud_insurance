@@ -1,44 +1,70 @@
-import React from "react";
 
-export const Enquiry = () => {
+import React, { useEffect, useState } from "react";
+import "./enquiry.css";
+import ComboWithSearch from "../components/ComboWithSearch";
+import axios from "axios";
+
+const Enquiry = () => {
+  const [countrydata, setCountryData] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/v1/countries")
+      .then((data) => setCountryData(data.data.data))
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    if (countrydata) {
+      const sortedCountries = [...countrydata].sort((a, b) =>
+        a.countryName.localeCompare(b.countryName)
+      );
+      setCountryData(sortedCountries);
+    }
+  }, []);
+
+  function selectedoption(V) {
+    if (V.id == "passport") {
+      setPassportCountry(V.value);
+    } else if (V.id == "journey") {
+      setJourneyTo(V.value);
+    }
+  }
+
   return (
     <>
-      <div>
-        <div className="items-center w-[90%] mx-auto">
-          <h3 className="text-[#074DA1] font-bold mb-5 text-[24px] uppercase size-full mt-[50px] text-center">
-            Outbound Travel Accident Insurance
-          </h3>
-          <div className="bg-white px-12 py-16 shadow-lg mb-10">
-            <div className="flex">
-              <div className="w-[50%]">
-                <p className="text-[#074DA1] font-bold mb-5">Passport Number</p>
+      <div className="enquiry-container">
+        <div className="enquiry-header">
+          <h3>Inbound Travel Accidence Insurance</h3>
+
+          <div className="enquiry-body">
+            <div className="enquiry-body-inner">
+              <div className="category">
+                <label htmlFor="passportNumber" className="category-txt">
+                  Passport Number <span className="star">*</span>
+                </label>
                 <input
-                  tySe="text"
+                  type="text"
                   placeholder=". . ."
-                  className=" border border-gray-400 rounded-md px-[10px] py-[5px] w-[95%]"
+                  className="category-input"
                 />
               </div>
-              <div className="w-[48%]">
-                <p className="text-[#074DA1] font-bold mb-5">
-                  Passport Issued Country
-                </p>
-                <select className=" border border-gray-400 rounded-md px-[10px] py-[5px] w-[100%]">
-                  <option value="">SELECT ONE</option>
-                  <option value="">SELECT TWO</option>
-                  <option value="">SELECT THREE</option>
-                  <option value="">SELECT FOUR</option>
-                  <option value="">SELECT FIVE</option>
-                  <option value="">SELECT SIX</option>
-                  <option value="">SELECT SEVEN</option>
-                </select>
+              <div className="category">
+                <label htmlFor="passportNumber" className="category-txt">
+                  Passport Issued Country <span className="star">*</span>
+                </label>
+                <ComboWithSearch
+                  data={countrydata}
+                  option={selectedoption}
+                  selection="passport"
+                />
               </div>
             </div>
-            <button className="bg-[#074DA1] text-white px-[35px] py-[5px] rounded-md mt-5 hover:bg-white hover:text-[#074DA1] hover:border hover:border-[#074DA1] duration-500 ">
-              Search
-            </button>
+            <button className="search-btn">Search</button>
           </div>
         </div>
       </div>
     </>
   );
 };
+
+export default Enquiry;

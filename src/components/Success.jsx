@@ -3,12 +3,24 @@ import PdfOverlay from "./PdfOverlay";
 import "./success.css";
 import { faCheck, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useLocation } from "react-router-dom";
 
 const Success = ({back}) => {
+  const location = useLocation()
+  const [item , setItem] = useState()
   const [pdf, setPdf] = useState(null);
   const now = new Date();
   function back(value){
     setPdf(value)
+  }
+  useEffect(()=>{
+    if(location){
+      setItem(location.state)
+    }
+  },[location])
+  function showpdf(){
+    setPdf(condition=>!condition)
+    document.body.style.overflow = pdf ? "" : "hidden";
   }
   return (
     <div className="success_container">
@@ -35,11 +47,11 @@ const Success = ({back}) => {
           </div>
           <div className="success_card">
             <p className="success_name">Payment Channel</p>
-            <p className="success_detail">asdfsafd</p>
+            <p className="success_detail">{item && item.payment}</p>
           </div>
         </div>
         <button
-          onClick={() => setPdf((condition) => !condition)}
+          onClick={showpdf}
           className="success_btn"
         >
           <FontAwesomeIcon icon={faDownload} className="download_btn" />

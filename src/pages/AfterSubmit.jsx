@@ -6,7 +6,8 @@ import axios from "axios";
 const AfterSubmit = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const [res, setRes] = useState();
+  console.log(location.pathname);
   const [items, setItem] = useState({});
   useEffect(() => {
     if (location?.state) {
@@ -15,12 +16,20 @@ const AfterSubmit = () => {
   }, [location]);
 
   function posting() {
-    navigate("/success");
     axios
       .post("http://localhost:8080/", items)
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        console.log(res.data);
+        setRes(res.status);
+      })
       .catch((err) => console.error(err));
   }
+
+  useEffect(() => {
+    if (res === 201) {
+      navigate("/success", { state: items });
+    }
+  }, [res]);
 
   return (
     <div className="confirm_container">
@@ -33,7 +42,7 @@ const AfterSubmit = () => {
             <div className="infomration_bloc">
               <div className="information_card">
                 <p className="information_name"> Payment Channel</p>
-                <p className="information_detail"> visa </p>
+                <p className="information_detail"> {items.payment} </p>
               </div>
               <div className="information_card">
                 <p className="information_name">Premium Amount</p>
@@ -41,7 +50,7 @@ const AfterSubmit = () => {
               </div>
               <div className="information_card">
                 <p className="information_name">Service Charge ( Visa )</p>
-                <p className="information_detail"> visa </p>
+                <p className="information_detail"> 500.00 MMK </p>
               </div>
               <div className="information_card">
                 <p className="information_name">

@@ -7,42 +7,40 @@ import Agent from "../components/Agent";
 import Associative from "../components/Associative";
 import self from "../img/self.png";
 import asso from "../img/agent.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import personal from "../img/agent1.png";
 import Email from "./Email";
 import axios from "axios";
 
 import ComboWithSearch from "../components/ComboWithSearch";
+import Payment from "./Payment";
 
-const Form = () => {
+const Form = ({ closing }) => {
   const [userclick, setUserClick] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [, i, l] = location.pathname.split("/");
+  const [showpayment, setShowPayment] = useState(null);
+  const [temp, setTemp] = useState({});
 
   //just random bullshits
-  const [option, setOption] = useState();
+  const [option, setOption] = useState("self");
   const [passportDate, setPassportDate] = useState();
   const [birthDate, setBirthDate] = useState();
   const [departureDate, setDepartureDate] = useState();
   const [policyDate, setPolicyDate] = useState();
   const [benebirthDate, setBeneBirthDate] = useState();
-  const [selectedvalue, setSelectedValue] = useState();
+  const [selectedvalue, setSelectedValue] = useState("self");
   const [alert, setAlert] = useState();
   const [childdate, setChildDate] = useState();
   const [agentdata, setAgentData] = useState({
     license: "",
     date: "",
     password: "",
-    name : ""
+    name: "",
   });
-  const [countrydata, setCountryData] = useState([
-    { id: 1, countryCode: "+95", countryName: "Myanmar" },
-    { id: 2, countryCode: "+90", countryName: "Baho" },
-    { id: 3, countryCode: "+90", countryName: "Burma" },
-    { id: 4, countryCode: "+90", countryName: "Brazil" },
-    { id: 5, countryCode: "+90", countryName: "Nepal" },
-    { id: 6, countryCode: "+90", countryName: "India" },
-  ]);
+  const [countrydata, setCountryData] = useState([]);
 
   // collecting datas
   const [passportNum, setPassportNum] = useState("");
@@ -89,7 +87,7 @@ const Form = () => {
       license: value.license,
       date: value.date,
       password: value.password,
-      name: value.name
+      name: value.name,
     });
   }
 
@@ -123,42 +121,42 @@ const Form = () => {
       !childguardian &&
       !childrelation
     ) {
-      navigate("/confirm", {
-        state: {
-          passportNumber: passportNum,
-          passportIssuedDate: passportDate,
-          passportIssuedCountry: passportCountry,
-          insuredName: insuredName,
-          insuredDOB: birthDate,
-          insuredGender: gender,
-          estimateDepartureDate: departureDate,
-          journeyFrom: "Myanmar",
-          journeyTo: journeyto,
-          policyStartDate: policyDate,
-          coveragePlan: coveragePlan,
-          packages: packages,
-          insuredPhoneNumber: insuredPh + insuredPhNumber,
-          foreignContactNumber: foreignPh + foreignPhNumber,
-          fatherName: father,
-          race: insuredrace,
-          occupation: occupation,
-          maritalStatus: maritalstatus,
-          insuredEmail: email,
-          insuredAddress: mmaddress,
-          insuredAddressAboard: foreignaddress,
-          beneficiaryName: beneficiaryname,
-          beneficiaryDOB: benebirthDate,
-          beneficiaryRelationship: relationship,
-          beneficiaryPhoneNumber: beneficiaryPh + beneficiaryPhNumber,
-          beneficiaryNRC: nationalNum,
-          beneficiaryEmail: beneficiaryemail,
-          beneficiaryAddress: beneficiaryaddress,
-          agentLicense: agentdata.license,
-          agentDOB: agentdata.date,
-          agentPassword: agentdata.password,
-          agentType: selectedvalue,
-          isChild: false,
-        },
+      setShowPayment(true);
+
+      setTemp({
+        passportNumber: passportNum,
+        passportIssuedDate: passportDate,
+        passportIssuedCountry: passportCountry,
+        insuredName: insuredName,
+        insuredDOB: birthDate,
+        insuredGender: gender,
+        estimateDepartureDate: departureDate,
+        journeyFrom: "Myanmar",
+        journeyTo: journeyto,
+        policyStartDate: policyDate,
+        coveragePlan: coveragePlan,
+        packages: packages,
+        insuredPhoneNumber: insuredPh + insuredPhNumber,
+        foreignContactNumber: foreignPh + foreignPhNumber,
+        fatherName: father,
+        race: insuredrace,
+        occupation: occupation,
+        maritalStatus: maritalstatus,
+        insuredEmail: email,
+        insuredAddress: mmaddress,
+        insuredAddressAboard: foreignaddress,
+        beneficiaryName: beneficiaryname,
+        beneficiaryDOB: benebirthDate,
+        beneficiaryRelationship: relationship,
+        beneficiaryPhoneNumber: beneficiaryPh + beneficiaryPhNumber,
+        beneficiaryNRC: nationalNum,
+        beneficiaryEmail: beneficiaryemail,
+        beneficiaryAddress: beneficiaryaddress,
+        agentLicense: agentdata.license,
+        agentDOB: agentdata.date,
+        agentPassword: agentdata.password,
+        agentType: selectedvalue,
+        isChild: false,
       });
     } else if (
       userclick &&
@@ -188,68 +186,67 @@ const Form = () => {
       childguardian &&
       childrelation
     ) {
-      navigate("/confirm", {
-        state: {
-          passportNumber: passportNum,
-          passportIssuedDate: passportDate,
-          passportIssuedCountry: passportCountry,
-          insuredName: insuredName,
-          insuredDOB: birthDate,
-          insuredGender: gender,
-          estimateDepartureDate: departureDate,
-          journeyFrom: "Myanmar",
-          journeyTo: journeyto,
-          policyStartDate: policyDate,
-          coveragePlan: coveragePlan,
-          packages: packages,
-          insuredPhoneNumber: insuredPh + insuredPhNumber,
-          foreignContactNumber: foreignPh + foreignPhNumber,
-          fatherName: father,
-          race: insuredrace,
-          occupation: occupation,
-          maritalStatus: maritalstatus,
-          insuredEmail: email,
-          insuredAddress: mmaddress,
-          insuredAddressAboard: foreignaddress,
-          beneficiaryName: beneficiaryname,
-          beneficiaryDOB: benebirthDate,
-          beneficiaryRelationship: relationship,
-          beneficiaryPhoneNumber: beneficiaryPh + beneficiaryPhNumber,
-          beneficiaryNRC: nationalNum,
-          beneficiaryEmail: beneficiaryemail,
-          beneficiaryAddress: beneficiaryaddress,
-          agentLicense: agentdata.license,
-          agentDOB: agentdata.date,
-          agentPassword: agentdata.password,
-          childName: childname,
-          childDOB: childdate,
-          childGender: childgender,
-          guardianceName: childguardian,
-          childRelationship: childrelation,
-          isChild: true,
-        },
+      setTemp({
+        passportNumber: passportNum,
+        passportIssuedDate: passportDate,
+        passportIssuedCountry: passportCountry,
+        insuredName: insuredName,
+        insuredDOB: birthDate,
+        insuredGender: gender,
+        estimateDepartureDate: departureDate,
+        journeyFrom: "Myanmar",
+        journeyTo: journeyto,
+        policyStartDate: policyDate,
+        coveragePlan: coveragePlan,
+        packages: packages,
+        insuredPhoneNumber: insuredPh + insuredPhNumber,
+        foreignContactNumber: foreignPh + foreignPhNumber,
+        fatherName: father,
+        race: insuredrace,
+        occupation: occupation,
+        maritalStatus: maritalstatus,
+        insuredEmail: email,
+        insuredAddress: mmaddress,
+        insuredAddressAboard: foreignaddress,
+        beneficiaryName: beneficiaryname,
+        beneficiaryDOB: benebirthDate,
+        beneficiaryRelationship: relationship,
+        beneficiaryPhoneNumber: beneficiaryPh + beneficiaryPhNumber,
+        beneficiaryNRC: nationalNum,
+        beneficiaryEmail: beneficiaryemail,
+        beneficiaryAddress: beneficiaryaddress,
+        agentLicense: agentdata.license,
+        agentDOB: agentdata.date,
+        agentPassword: agentdata.password,
+        childName: childname,
+        childDOB: childdate,
+        childGender: childgender,
+        guardianceName: childguardian,
+        childRelationship: childrelation,
+        isChild: true,
       });
+      setShowPayment(true);
     }
   }
-  function selectedoption(V){
-  
-    if(V.id == "passport"){
-      setPassportCountry(V.value)
-    }else if(V.id == "journey"){
-      setJourneyTo(V.value)
+  function selectedoption(V) {
+    if (V.id == "passport") {
+      setPassportCountry(V.value);
+    } else if (V.id == "journey") {
+      setJourneyTo(V.value);
     }
-  
-    
   }
   // fetching country data
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:8080/")
-  //     .then((data) => setCountryData(data.data))
-  //     .catch((err) => console.error(err));
-  // }, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/v1/countries")
+      .then((data) => setCountryData(data.data.data))
+      .catch((err) => console.error(err));
+  }, []);
 
   //sorting country
+  function closing(v) {
+    setShowPayment(v);
+  }
   useEffect(() => {
     if (countrydata) {
       const sortedCountries = [...countrydata].sort((a, b) =>
@@ -258,17 +255,22 @@ const Form = () => {
       setCountryData(sortedCountries);
     }
   }, []);
-  function editAgent(){
-    setAlert(selectedvalue)
-    setEditAgent({userclick : userclick,license: agentdata.license,
-    date: agentdata.date,
-    password: agentdata.password,
-    name : agentdata.name})
+  function editAgent() {
+    setAlert(selectedvalue);
+    setEditAgent({
+      userclick: userclick,
+      license: agentdata.license,
+      date: agentdata.date,
+      password: agentdata.password,
+      name: agentdata.name,
+    });
   }
   return (
     <div className="form">
       <div className="form_container">
-        <h2 className="form_topic">Outbound Travel Accident Insurance (MMK)</h2>
+        <h2 className="form_topic">
+          Outbound Travel Accident Insurance {l == "mmk" ? "(MMK)" : "(USD)"}
+        </h2>
         <div className="form_page">
           <div className="passport">
             <p className="titles">PASSPORT INFORMATION (In English)</p>
@@ -306,25 +308,11 @@ const Form = () => {
                   <br /> နိုင်ငံကူးလက်မှတ်ထုတ်ပေးသည့်နိုင်ငံ{" "}
                   <span className="red">*</span>
                 </label>
-                <ComboWithSearch data={countrydata} option={selectedoption} selection="passport"/>
-                {/* <input
-                  className={`card_select ${
-                    passportCountry && "card--selected"
-                  }`}
-                  name="tocountry"
-                  placeholder="Select One"
-                  onFocus={(e) => selecting(e)}
-                  onChange={(e) => setPassportCountry(e.target.value)}
-                  ref={passportRef}
-                  value={passportCountry}
+                <ComboWithSearch
+                  data={countrydata}
+                  option={selectedoption}
+                  selection="passport"
                 />
-                {selection2 && (
-                  <Select
-                    countrydata={countrydata}
-                    backdata={backdata2}
-                    userInput={passportCountry}
-                  />
-                )} */}
                 {userclick && !passportCountry && <Field />}
               </div>
             </div>
@@ -340,6 +328,7 @@ const Form = () => {
                   type="radio"
                   id="self"
                   name="options"
+                  checked={option == "self"}
                   onChange={(e) => setOption(e.target.id)}
                 />
                 <label htmlFor="self">
@@ -351,6 +340,7 @@ const Form = () => {
                   type="radio"
                   id="child"
                   name="options"
+                  checked={option == "child"}
                   onChange={(e) => setOption(e.target.id)}
                 />
                 <label htmlFor="child">
@@ -435,23 +425,12 @@ const Form = () => {
                   Journey To
                   <br /> ဆိုက်ရောက်မည့်နိုင်ငံ <span className="red">*</span>
                 </label>
-                <ComboWithSearch data={countrydata} option={selectedoption} selection="journey"/>
-                {/* <input
-                  className={`card_select ${journeyto && "card--selected"}`}
-                  name="tocountry"
-                  placeholder="Select One"
-                  onFocus={(e) => selecting(e)}
-                  onChange={(e) => setJourneyTo(e.target.value)}
-                  ref={journeyTo}
-                  value={journeyto}
+                <ComboWithSearch
+                  data={countrydata}
+                  option={selectedoption}
+                  selection="journey"
                 />
-                {selection && (
-                  <Select
-                    countrydata={countrydata}
-                    backdata={backdata}
-                    userInput={journeyto}
-                  />
-                )} */}
+
                 {userclick && !journeyto && <Field />}
               </div>
               <div className="card">
@@ -501,9 +480,15 @@ const Form = () => {
                   className={`card_select ${packages && "card--selected"}`}
                 >
                   <option value="">SELECT ONE</option>
-                  <option value="30,000,000MMK">30,000,000 MMK</option>
-                  <option value="90,000,000MMK">90,000,000 MMK</option>
-                  <option value="150,000,000MMK">150,000,000 MMK</option>
+                  <option value={l == "mmk" ? "30,000,000 MMK" : "USD 10,000"}>
+                    {l == "mmk" ? "30,000,000 MMK" : "USD 10,000"}
+                  </option>
+                  <option value={l == "mmk" ? "90,000,000 MMK" : "USD 30,000"}>
+                    {l == "mmk" ? "90,000,000 MMK" : "USD 30,000"}
+                  </option>
+                  <option value={l == "mmk" ? "150,000,000 MMK" : "USD 50,000"}>
+                    {l == "mmk" ? "150,000,000 MMK" : "USD 50,000"}
+                  </option>
                 </select>
                 {userclick && !packages && <Field />}
               </div>
@@ -902,7 +887,7 @@ const Form = () => {
                   type="radio"
                   name="services"
                   id="self"
-                  checked
+                  checked={selectedvalue === "self"}
                   onChange={(e) => setSelectedValue(e.target.id)}
                 />
                 <div
@@ -977,23 +962,24 @@ const Form = () => {
                   {userclick && !agentdata.license && <Field />}
                 </div>
                 <div className="personal_field">
-                  <label >
+                  <label>
                     Agent Name
                     <span className="red">*</span>
                   </label>
                   <input type="text" disabled placeholder="AGENT NAME" />
                   {userclick && !agentdata.name && <Field />}
                 </div>
-                <button
-                  className="agent_btn"
-                  onClick={editAgent}
-                >
+                <button className="agent_btn" onClick={editAgent}>
                   EDIT
                 </button>
               </div>
             )}
             {alert == "personal" && (
-              <Agent props={() => setAlert(false)} item={item} userclick={editagent} />
+              <Agent
+                props={() => setAlert(false)}
+                item={item}
+                userclick={editagent}
+              />
             )}
             {selectedvalue == "associative" && (
               <div className="personal_agent">
@@ -1011,23 +997,24 @@ const Form = () => {
                   {userclick && !agentdata.license && <Field />}
                 </div>
                 <div className="personal_field">
-                  <label >
+                  <label>
                     Name
                     <span className="red">*</span>
                   </label>
-                  <input type="text" disabled value={agentdata.name}/>
+                  <input type="text" disabled value={agentdata.name} />
                   {userclick && !agentdata.name && <Field />}
                 </div>
-                <button
-                  className="agent_btn"
-                  onClick={editAgent}
-                >
+                <button className="agent_btn" onClick={editAgent}>
                   EDIT
                 </button>
               </div>
             )}
             {alert == "associative" && (
-              <Associative props={() => setAlert(false)} item={item} userclick={editagent}/>
+              <Associative
+                props={() => setAlert(false)}
+                item={item}
+                userclick={editagent}
+              />
             )}
           </div>
 
@@ -1036,6 +1023,8 @@ const Form = () => {
           <button className="form_btn" onClick={submitHandler}>
             SUBMIT AND CONTINUE
           </button>
+          {/*  */}
+          {showpayment && <Payment temp={temp} closing={closing} />}
         </div>
       </div>
     </div>

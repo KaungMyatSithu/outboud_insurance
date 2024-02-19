@@ -1,0 +1,75 @@
+.or_container{
+    background-color: #f3f3f3;
+    padding: 30px 0 60px;
+}
+.or_spacing{
+    width: 90%;
+    margin: 0 auto;
+}
+.or_spacing h2{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding:0 0 30px;
+}
+.or_bloc{
+    color: #FAEF01;
+    display: flex;
+}
+.or_bloc p{
+    color: #FAEF01;
+}
+.or_btn{
+    background-color: #074da1;
+    margin-right: 20px;
+    width: 30%;
+    height: 25vh;
+    transition: 1s all ease;
+}
+.or_btn--hover{
+    background-color: #FAEF01;
+}
+.or_btn--hover p{
+    color: #074da1;
+}
+.orbtn_icon{
+    padding: 15px 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+.icon_center{
+    color: #FAEF01;
+    border: 7px solid #FAEF01;
+    width: 17%;
+    padding: 25px 10px 25px 10px;
+    border-radius: 50%;
+    font-size: 25px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.icon_center--hover{
+    border-color: #074da1;
+    color: #074da1;
+}
+.icon_center--fontawesome{
+    font-size: 40px;
+    padding: 19px 9px
+}
+.icon_check{
+    color: #FAEF01;
+    position: absolute;
+    right: 37%;
+    bottom: 10px;
+    background-color: #074da1;
+    padding: 3px;
+    border-radius: 50%;
+    font-size: 25px;
+    transition: background-color 1s ease;
+}
+.icon_check--hover{
+    background-color: #FAEF01;
+    color: #074da1;
+}
+.or_btn p{
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
