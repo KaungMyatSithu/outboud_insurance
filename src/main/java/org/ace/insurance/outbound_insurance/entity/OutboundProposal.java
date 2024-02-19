@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+import org.modelmapper.internal.bytebuddy.dynamic.loading.InjectionClassLoader;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,12 +17,17 @@ import java.util.UUID;
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "outbound_proposal")
 public class OutboundProposal {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(generator = "certificate_id_seq")
+    @GenericGenerator(name = "certificate_id_seq", strategy = "org.ace.insurance.outbound_insurance.customIDGenerator.CertificateIDGenerator")
+    private String certificateID;
+
+
+    @Column(nullable = false, updatable = false) // Ensures that this column cannot be null and cannot be updated
     private UUID id;
+
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate submittedDate;
     @JsonFormat(pattern = "dd-MM-yyyy")
@@ -53,10 +60,18 @@ public class OutboundProposal {
     protected void onCreate(){
         createdDate = LocalDateTime.now();
         version = 1L;
+        if (id==null){
+            id = UUID.randomUUID();
+        }
+
     }
     @PreUpdate
     protected void onUpdate(){
         updatedDate = LocalDateTime.now();
         version ++;
+    }
+
+    public OutboundProposal() {
+        this.id = UUID.randomUUID(); // Generate a UUID for the id field
     }
 }
