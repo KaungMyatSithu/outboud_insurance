@@ -99,6 +99,16 @@ const Form = ({ closing }) => {
       setIsChild(true);
     }
   }
+
+  useEffect(() => {
+    if (option == "self") {
+      setChildName(null);
+      setChildDate(null);
+      setChildGender(null);
+      setChildGuardian(null);
+      setChildrelation(null);
+    }
+  }, [option]);
   function submitHandler() {
     setUserClick(true);
     axios
@@ -349,7 +359,7 @@ const Form = ({ closing }) => {
               </div>
             </div>
           </div>
-
+          <span className="line"></span>
           {/* insured infomation */}
 
           <div className="insured">
@@ -532,16 +542,18 @@ const Form = ({ closing }) => {
                   ဆက်သွယ်ရမည့်ဖုန်းနံပါတ် <span className="red">*</span>
                 </label>
                 <div className="phone_number">
-                  <ComboWithSearch
-                    data={countrydata}
-                    option={selectedoption}
-                    selection="insuredPh"
-                  />
+                  <div className="combo">
+                    <ComboWithSearch
+                      data={countrydata}
+                      option={selectedoption}
+                      selection="insuredPh"
+                    />
+                  </div>
 
                   <input
                     type="text"
                     name="phoneNumber"
-                    placeholder="ENTER YOUR PHONE NUMBER"
+                    placeholder="PHONE NUMBER"
                     onChange={(e) => setInsuredPhNumber(e.target.value)}
                   />
                 </div>
@@ -556,16 +568,18 @@ const Form = ({ closing }) => {
                   <br /> ဆက်သွယ်ရမည့်နိုင်ငံခြားဖုန်းနံပါတ်{" "}
                 </label>
                 <div className="phone_number">
-                  <ComboWithSearch
-                    data={countrydata}
-                    option={selectedoption}
-                    selection="insuredforeignPh"
-                  />
+                  <div className="combo">
+                    <ComboWithSearch
+                      data={countrydata}
+                      option={selectedoption}
+                      selection="insuredforeignPh"
+                    />
+                  </div>
 
                   <input
                     type="text"
                     name="foreignNumber"
-                    placeholder="ENTER YOUR PHONE NUMBER"
+                    placeholder="PHONE NUMBER"
                     onChange={(e) => setForeignPhNumber(e.target.value)}
                   />
                   {userclick && isNaN(Number(foreignPhNumber)) && (
@@ -664,7 +678,7 @@ const Form = ({ closing }) => {
                 <textarea
                   name="mmAddress"
                   maxLength={300}
-                  placeholder="..."
+                  placeholder="  ..."
                   onChange={(e) => setMmAddress(e.target.value)}
                 />
               </div>
@@ -677,7 +691,7 @@ const Form = ({ closing }) => {
                 <textarea
                   name="foreignAddress"
                   maxLength={300}
-                  placeholder="..."
+                  placeholder="  ..."
                   onChange={(e) => setForeignAddress(e.target.value)}
                 />
                 {userclick && !foreignaddress && <Field />}
@@ -686,6 +700,7 @@ const Form = ({ closing }) => {
           </div>
 
           {/* child */}
+          {option == "self" && <span className="line"></span>}
 
           {option == "child" && (
             <div className="child">
@@ -828,15 +843,17 @@ const Form = ({ closing }) => {
                   <span className="red">*</span>
                 </label>
                 <div className="phone_number">
-                  <ComboWithSearch
-                    data={countrydata}
-                    option={selectedoption}
-                    selection="benePh"
-                  />
+                  <div className="combo">
+                    <ComboWithSearch
+                      data={countrydata}
+                      option={selectedoption}
+                      selection="benePh"
+                    />
+                  </div>
                   <input
                     type="text"
                     name="phoneNumber"
-                    placeholder="ENTER YOUR PHONE NUMBER"
+                    placeholder="PHONE NUMBER"
                     onChange={(e) => setBeneficiaryPhNumber(e.target.value)}
                   />
                   {userclick && isNaN(Number(beneficiaryPhNumber)) && (
@@ -882,7 +899,7 @@ const Form = ({ closing }) => {
                 <textarea
                   name="foreignAddress"
                   maxLength={300}
-                  placeholder="..."
+                  placeholder="  ..."
                   onChange={(e) => setBeneficiaryAddress(e.target.value)}
                 />
               </div>
@@ -1043,6 +1060,7 @@ const Form = ({ closing }) => {
           <button className="form_btn" onClick={submitHandler}>
             SUBMIT AND CONTINUE
           </button>
+
           {/*  */}
           {showpayment && <Payment temp={temp} closing={closing} />}
         </div>

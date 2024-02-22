@@ -86,7 +86,9 @@
   display: flex;
   justify-content: space-between;
 }
-
+.img_icon img {
+  width: 100%;
+}
 .navi_bar-right {
   display: flex;
   align-items: center;

@@ -18,7 +18,8 @@
   margin: 0 auto;
 }
 .titles {
-  margin: 20px 0;
+  width: 95%;
+  margin: 20px auto;
   font-weight: bold;
   font-size: 20px;
   text-decoration: underline;
@@ -38,9 +39,11 @@
 .information_name {
   width: 40%;
   font-weight: bold;
+  margin-right: 10%;
 }
 .information_detail {
   font-weight: 400;
+  min-width: 50%;
 }
 .information_card--normal {
   background-color: transparent;

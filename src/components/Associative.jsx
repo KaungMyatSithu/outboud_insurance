@@ -28,7 +28,12 @@ const Associative = ({ props, item, userclick }) => {
         setError(true);
       });
   }
-
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
   return (
     <div className="overlay">
       <div className="agent_container">

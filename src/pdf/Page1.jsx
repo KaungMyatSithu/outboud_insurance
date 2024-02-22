@@ -178,7 +178,7 @@ function Page1({ id }) {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:8080/api/v1/outboundProposal/findByCertificateId?id=${id}`
+        `http://localhost:8080/api/v1/outboundProposal/findByCertificateNo?id=${id}`
       )
       .then((res) => {
         setData(res.data.data);
@@ -230,7 +230,7 @@ function Page1({ id }) {
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Certificate Number</Text>
-              <Text>: {data?.certificateID}</Text>
+              <Text>: {data?.certificateNo}</Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Agent/Agency name </Text>

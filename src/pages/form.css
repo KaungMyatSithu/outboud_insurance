@@ -13,49 +13,57 @@ label {
   padding: 20px 0;
 }
 .form_page {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: -1px -1px 1px rgb(0, 0, 0, 0.5);
+  margin-top: 1rem; /* equivalent to mt-4 in Bootstrap */
+  background-color: #ffffff; /* equivalent to bg-white in Bootstrap */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* shadow effect */
+  padding: 0.75rem; /* equivalent to p-3 in Bootstrap */
+  border-bottom: 1.25rem; /* equivalent to mb-5 in Bootstrap */
+  background-color: #f8f9fa; /* equivalent to bg-body-tertiary in Bootstrap */
+  border-radius: 0.25rem;
 }
 
 .red {
   color: red;
 }
 .bloc {
-  margin-top: 20px;
   display: flex;
+  width: 95%;
+  margin: 20px auto 40px;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
 .card {
-  margin: 10px 0;
-  width: 32%;
+  margin: 10px 10px;
+  width: 30%;
   display: flex;
   position: relative;
   flex-direction: column;
 }
 .card label {
   font-weight: 600;
+  font-size: 14px;
 }
 .card--grey {
   background-color: #f3f3f3;
   font-size: 14px;
+  border: 1px solid rgb(0, 0, 0, 0.6);
+  width: 100%;
 }
 .card textarea {
   resize: none;
-  width: 85%;
+  width: 100%;
   height: 12vh;
   font-size: 16px;
 }
 .card input {
-  width: 80%;
+  width: 93.5%;
   padding: 5px 10px;
   font-size: 14px;
 }
 .card_select {
   font-size: 14px;
   background-color: #fff;
-  width: 85%;
+  width: 100%;
   padding: 5px 10px;
   color: rgb(0, 0, 0, 0.5);
 }
@@ -84,10 +92,12 @@ label {
 }
 .persontype {
   display: flex;
+  width: 95%;
+  margin: 0 auto;
 }
 .phone_number {
   display: flex;
-  width: 85%;
+  width: 100%;
 }
 .phone_number select {
   width: 30%;
@@ -111,12 +121,12 @@ label {
 .agents,
 .child {
   margin: 20px 0;
+  border-radius: 10px;
   background-color: #e0e0e0;
   padding: 20px;
 }
 .agentType {
   display: flex;
-  width: 70%;
 }
 .agentType_content {
   display: flex;
@@ -164,6 +174,7 @@ label {
   border: 2px solid rgb(0, 0, 0, 0.4);
   padding: 5px 10px;
   width: 80%;
+  background-color: #fff;
 }
 .agent_btn {
   background-color: transparent;
@@ -171,13 +182,21 @@ label {
   text-decoration: underline;
   color: #074da1;
   padding-top: 20px;
+  align-self: flex-end;
+  margin-bottom: 10px;
 }
 .form_btn {
+  transition: 1s all ease;
   background-color: #074da1;
   color: #fff;
   padding: 10px 15px;
   font-size: 18px;
   border-radius: 5px;
+}
+.form_btn:hover {
+  background-color: #fff;
+  color: #074da1;
+  border: 1px solid #074da1;
 }
 .agent_img {
   width: 25px;
@@ -216,5 +235,8 @@ label {
   scrollbar-width: none;
 }
 .countrywidth {
-  width: 85%;
+  width: 100%;
+}
+.combo {
+  width: 60%;
 }

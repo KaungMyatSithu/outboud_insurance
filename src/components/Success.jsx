@@ -38,22 +38,22 @@ const Success = ({ back }) => {
         </div>
         <div className="success_bloc">
           <div className="success_card">
-            <p className="success_name">Transcation Time </p>
+            <p className="success_name">Transcation Time: </p>
             <p className="success_detail">
               {now && now.toLocaleDateString()}{" "}
               {now && now.toLocaleTimeString()}
             </p>
           </div>
           <div className="success_card">
-            <p className="success_name">Premium Amount </p>
+            <p className="success_name">Premium Amount: </p>
             <p className="success_detail">{item?.currency}</p>
           </div>
           <div className="success_card">
-            <p className="success_name">Order Id </p>
-            <p className="success_detail">{data?.certificateID}</p>
+            <p className="success_name">Order Id: </p>
+            <p className="success_detail">{data?.certificateNo}</p>
           </div>
           <div className="success_card">
-            <p className="success_name">Payment Channel</p>
+            <p className="success_name">Payment Channel:</p>
             <p className="success_detail">{item && item.payment}</p>
           </div>
         </div>
@@ -61,7 +61,7 @@ const Success = ({ back }) => {
           <FontAwesomeIcon icon={faDownload} className="download_btn" />
           Download Policy Certificate
         </button>
-        {pdf && <PdfOverlay back={back} id={data?.certificateID} />}
+        {pdf && <PdfOverlay back={back} id={data?.certificateNo} />}
       </div>
     </div>
   );

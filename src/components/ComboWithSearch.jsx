@@ -7,7 +7,7 @@ const ComboWithSearch = ({ data, option, selection }) => {
   const [options, setOptions] = useState([]);
 
   const handleChange = (e) => {
-    setSelectedOption(e);
+    setSelectedOption(e.value);
     option({ value: e.value, id: e.id });
   };
 
@@ -15,7 +15,6 @@ const ComboWithSearch = ({ data, option, selection }) => {
     control: (provided, state) => ({
       ...provided,
       width: "100%", // Adjust width based on selected option
-      minHeight: "36px", // Adjust height
     }),
     menu: (provided) => ({
       ...provided,
@@ -45,7 +44,9 @@ const ComboWithSearch = ({ data, option, selection }) => {
     if (
       data &&
       data.length > 0 &&
-      (selection == "passport" || selection == "journey"|| selection =="country")
+      (selection == "passport" ||
+        selection == "journey" ||
+        selection == "country")
     ) {
       setOptions(
         data.map((item) => ({
@@ -57,7 +58,9 @@ const ComboWithSearch = ({ data, option, selection }) => {
     } else if (
       data &&
       data.length > 0 &&
-      (selection == "insuredPh" || selection == "insuredforeignPh" || selection =="benePh")
+      (selection == "insuredPh" ||
+        selection == "insuredforeignPh" ||
+        selection == "benePh")
     ) {
       setOptions(
         data.map((item) => ({
@@ -70,11 +73,10 @@ const ComboWithSearch = ({ data, option, selection }) => {
   }, [data]);
   return (
     <Select
-      value={selectedOption}
+      value={{ label: selectedOption ? selectedOption : "Search..." }}
       onChange={(e) => handleChange(e)}
       options={options}
       isSearchable
-      placeholder="Search..."
       filterOption={customFilter}
       styles={comboSearch}
     />

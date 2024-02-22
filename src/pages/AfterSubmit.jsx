@@ -328,7 +328,7 @@ const AfterSubmit = () => {
                   Address in Myanmar
                   <br /> မြန်မာနိုင်ငံရှိနေရပ်လိပ်စာ
                 </p>
-                <p className="information_detail"> {items.nsuredAddress} </p>
+                <p className="information_detail"> {items.insuredAddress} </p>
               </div>
             </div>
           </div>
