@@ -8,6 +8,7 @@ import Outbound from "./pages/Outbound";
 import AfterSubmit from "./pages/AfterSubmit";
 import Footer from "./components/Footer";
 import Or from "./pages/Or";
+import Enquiry from './pages/Enquiry'
 function App() {
   return (
     <>
@@ -19,12 +20,13 @@ function App() {
           <Route path="/form/mmk" element={<Form />} />
           <Route path="/form/usd" element={<Form />} />
           <Route path="/success" element={<Success />} />
+          <Route path="/enquiry" element={<Enquiry />} />
           <Route path="or" element={<Or/>}/>
           {/* <Route path="/outbound" element={<Outbound />} />
           <Route path="/outbound/mmk" element={<Currency />} />
           <Route path="/outbound/usd" element={<Currency />} /> */}
         </Routes>
-        {/* <Footer /> */}
+        <Footer />
       </BrowserRouter>
     </>
   );

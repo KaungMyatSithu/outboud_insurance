@@ -3,31 +3,32 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import Field from "../pages/Field";
 import "./agent.css";
+import axios from "axios";
 
-const Associative = ({ props, item , userclick }) => {
-  const [agentBirthDate, setAgentBirthDate] = useState();
-  const [data, setData] = useState({});
-  const [message, setMessage] = useState();
-  useEffect(() => {
-    if (message) {
-      props(message);
-    }
-  }, [message]);
-  useEffect(() => {
-    if (agentBirthDate) {
-      setData({ ...data, date: agentBirthDate });
-    }
-  }, [agentBirthDate]);
-  function agentData() {
-    if (data) {
-      item(data);
-    }
+const Associative = ({ props, item, userclick }) => {
+  const [password, setPassword] = useState("");
+  const [agentlicense, setAgentLicense] = useState();
+  const [error, setError] = useState();
+
+  function messageback() {
+    props(true);
   }
-  useEffect(()=>{
-    if(userclick){
-      setData({...data,license: userclick.license, password: userclick.password})
-    }
-  },[userclick])
+  function agentData() {
+    axios
+      .get(
+        `http://localhost:8080/api/v1/agent/checkAsso?agentLicense=${agentlicense}&agentPassword=${password}&agentType=Association`
+      )
+      .then((res) => {
+        item(res.data);
+        props(true);
+        setError(false);
+      })
+      .catch((error) => {
+        console.error("The error is " + error);
+        setError(true);
+      });
+  }
+
   return (
     <div className="overlay">
       <div className="agent_container">
@@ -36,7 +37,7 @@ const Associative = ({ props, item , userclick }) => {
           <FontAwesomeIcon
             icon={faXmark}
             className="back_icon"
-            onClick={() => setMessage(true)}
+            onClick={messageback}
           />
         </div>
         <span className="line"></span>
@@ -49,8 +50,8 @@ const Associative = ({ props, item , userclick }) => {
               type="text"
               placeholder="ENTER AGENT LICENSE NO."
               name="license"
-              value={data.license}
-              onChange={(e) => setData({ ...data, license: e.target.value })}
+              value={agentlicense}
+              onChange={(e) => setAgentLicense(e.target.value)}
             />
             {userclick.userclick && !data.license && <Field />}
           </div>
@@ -58,11 +59,19 @@ const Associative = ({ props, item , userclick }) => {
             <label>
               Password <span className="red">*</span>
             </label>
-            <input type="password" placeholder="00-0000" value={data.password} onChange={(e) => setData({ ...data, password: e.target.value })}/>
+            <input
+              type="password"
+              placeholder="00-0000"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
             {userclick.userclick && !data.password && <Field />}
           </div>
+          {error && <div className="red">Wrong Password</div>}
         </div>
-        <button className="agent_submit" onClick={agentData}>Check Agent</button>
+        <button className="agent_submit" onClick={agentData}>
+          Check Agent
+        </button>
       </div>
     </div>
   );

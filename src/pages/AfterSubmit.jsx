@@ -7,8 +7,8 @@ const AfterSubmit = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [res, setRes] = useState();
-  console.log(location.pathname);
   const [items, setItem] = useState({});
+  const [returndata, setReturnData] = useState({});
   useEffect(() => {
     if (location?.state) {
       setItem(location.state);
@@ -16,18 +16,26 @@ const AfterSubmit = () => {
   }, [location]);
 
   function posting() {
+    let { payment, ...item } = items;
+
     axios
-      .post("http://localhost:8080/", items)
+      .post("http://localhost:8080/api/v1/outboundProposal", item)
       .then((res) => {
-        console.log(res.data);
         setRes(res.status);
+        setReturnData(res.data.data);
       })
       .catch((err) => console.error(err));
   }
 
   useEffect(() => {
     if (res === 201) {
-      navigate("/success", { state: items });
+      navigate("/success", {
+        state: {
+          returndata,
+          payment: items.payment,
+          currency: items.rate + 120 + " " + items.currency,
+        },
+      });
     }
   }, [res]);
 
@@ -46,23 +54,32 @@ const AfterSubmit = () => {
               </div>
               <div className="information_card">
                 <p className="information_name">Premium Amount</p>
-                <p className="information_detail"> visa </p>
+                <p className="information_detail">
+                  {" "}
+                  {items.rate} {items.currency}
+                </p>
               </div>
               <div className="information_card">
                 <p className="information_name">Service Charge ( Visa )</p>
-                <p className="information_detail"> 500.00 MMK </p>
+                <p className="information_detail"> 120 {items.currency} </p>
               </div>
               <div className="information_card">
                 <p className="information_name">
                   Total Amount (Including Service Charges)
                 </p>
-                <p className="information_detail"> visa </p>
+                <p className="information_detail">
+                  {" "}
+                  {items.rate + 120} {items.currency}{" "}
+                </p>
               </div>
               <div className="information_card">
                 <p className="information_name">
                   Net Amount (Including Service Charges)
                 </p>
-                <p className="information_detail"> visa </p>
+                <p className="information_detail">
+                  {" "}
+                  {items.rate + 120} {items.currency}
+                </p>
               </div>
             </div>
           </div>
@@ -84,8 +101,7 @@ const AfterSubmit = () => {
                   <br /> နိုင်ငံကူးလက်မှတ်ထုတ်ပေးသည့်နေ့
                 </p>
                 <p className="information_detail">
-                  {items.passportIssuedDate &&
-                    items.passportIssuedDate.toLocaleDateString()}
+                  {items.passportIssuedDate && items.passportIssuedDate}
                 </p>
               </div>
               <div className="information_card information_card--normal">
@@ -94,7 +110,7 @@ const AfterSubmit = () => {
                   နိုင်ငံကူးလက်မှတ်ထုတ်ပေးသည့်နိုင်ငံ
                 </p>
                 <p className="information_detail">
-                  {items.passportIssuedCountry}
+                  {items.passportIssueCountry}
                 </p>
               </div>
             </div>
@@ -126,8 +142,7 @@ const AfterSubmit = () => {
                 </p>
                 <p className="information_detail">
                   {" "}
-                  {items.insuredDOB &&
-                    items.insuredDOB.toLocaleDateString()}{" "}
+                  {items.insuredDOB && items.insuredDOB}{" "}
                 </p>
               </div>
               <div className="information_card information_card--normal">
@@ -143,8 +158,7 @@ const AfterSubmit = () => {
                   <br /> ထွက်ခွာမည့်နေ့(ခန့်မှန်းခြေ)
                 </p>
                 <p className="information_detail">
-                  {items.estimateDepartureDate &&
-                    items.estimateDepartureDate.toLocaleDateString()}{" "}
+                  {items.estimateDepartureDate && items.estimateDepartureDate}{" "}
                 </p>
               </div>
               {items.childName && (
@@ -164,9 +178,7 @@ const AfterSubmit = () => {
                     <br />
                     မွေးသက္ကရာဇ်
                   </p>
-                  <p className="information_detail">
-                    {items.childDOB.toLocaleDateString()}
-                  </p>
+                  <p className="information_detail">{items.childDOB}</p>
                 </div>
               )}
               {items.childGender && (
@@ -237,8 +249,7 @@ const AfterSubmit = () => {
                 </p>
                 <p className="information_detail">
                   {" "}
-                  {items.policyStartDate &&
-                    items.policyStartDate.toLocaleDateString()}{" "}
+                  {items.policyStartDate && items.policyStartDate}{" "}
                 </p>
               </div>
               <div className="information_card information_card--normal">
@@ -342,8 +353,7 @@ const AfterSubmit = () => {
                 </p>
                 <p className="information_detail">
                   {" "}
-                  {items.beneficiaryDOB &&
-                    items.beneficiaryDOB.toLocaleDateString()}{" "}
+                  {items.beneficiaryDOB && items.beneficiaryDOB}{" "}
                 </p>
               </div>
               <div className="information_card information_card--normal">

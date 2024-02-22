@@ -198,8 +198,8 @@ label {
   padding: 5px 10px;
   font-size: 20px;
 }
-.options_option:hover{
-  background-color: #EEE;
+.options_option:hover {
+  background-color: #eee;
 }
 .options_option:last-child {
   border-bottom: 0;
@@ -214,4 +214,7 @@ label {
 .options {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+.countrywidth {
+  width: 85%;
 }

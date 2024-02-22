@@ -24,14 +24,21 @@ const Payment = ({ temp, closing }) => {
       document.body.style.overflow = "unset";
     };
   }, []);
+
   useEffect(() => {
     if (temp) {
       const today = new Date();
-      const birthDate = new Date(temp.insuredDOB);
-      let calculatedAge = today.getFullYear() - birthDate.getFullYear();
+      const parts = temp.insuredDOB.split("-");
+      const day = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1; // Months are 0-indexed
+      const year = parseInt(parts[2], 10);
+      const insureBirth = new Date(year, month, day);
+      let calculatedAge = today.getUTCFullYear() - insureBirth.getUTCFullYear();
       setAge(calculatedAge.toString());
+      console.log("Calculated age:", calculatedAge);
     }
   }, [temp]);
+
   function back() {
     closing(false);
   }
@@ -55,19 +62,19 @@ const Payment = ({ temp, closing }) => {
           </div>
           <div className="payment_card">
             <p>Premium Amount</p>
-            <p className="payment_value">{temp.packages}</p>
+            <p className="payment_value">{temp.rate}</p>
           </div>
           <div className="payment_card">
             <p>Net Premium</p>
-            <p className="payment_value">{temp.packages}</p>
+            <p className="payment_value">{temp.rate}</p>
           </div>
           <div className="payment_card">
-            <p>Age (Year)</p>
+            <p>Age (Years)</p>
             <p className="payment_value">{age}</p>
           </div>
           <div className="payment_card">
             <p>Coverage Plan</p>
-            <p className="payment_value">{temp.coveragePlan}</p>
+            <p className="payment_value">{temp.coveragePlan} Days</p>
           </div>
           <div className="payment_card">
             <p>Packages</p>

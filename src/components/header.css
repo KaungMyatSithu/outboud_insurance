@@ -42,7 +42,7 @@
   border: 0;
   padding: 10px;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
 }
 .left_category--single {
@@ -55,7 +55,7 @@
   color: #fff;
   text-decoration: none;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
 }
 .dropdown {
@@ -101,7 +101,7 @@
   border-radius: 5px;
   color: #074da1;
   text-decoration: none;
-  padding: 10px;
+  padding: 10px 2px;
   font-weight: bold;
 }
 .header_container {
@@ -118,7 +118,7 @@
 }
 .contact {
   display: flex;
-  width: 40%;
+  width: 50%;
 }
 .mail,
 .phone {
@@ -170,7 +170,7 @@
   display: flex;
   align-items: center;
   color: #074da1;
-  font-size: 18px;
+  font-size: 15px;
 }
 .link_port_img {
   padding-left: 10px;

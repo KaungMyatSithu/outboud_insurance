@@ -33,6 +33,7 @@ const Form = ({ closing }) => {
   const [benebirthDate, setBeneBirthDate] = useState();
   const [selectedvalue, setSelectedValue] = useState("self");
   const [alert, setAlert] = useState();
+  const [isChild, setIsChild] = useState(false);
   const [childdate, setChildDate] = useState();
   const [agentdata, setAgentData] = useState({
     license: "",
@@ -57,7 +58,7 @@ const Form = ({ closing }) => {
   const [father, setFather] = useState("");
   const [insuredrace, setInsuredRace] = useState("");
   const [occupation, setOccupation] = useState("");
-  const [maritalstatus, setMaritalStatus] = useState("");
+  const [maritalstatus, setMaritalStatus] = useState("SINGLE");
   const [email, setEmail] = useState("");
   const [mmaddress, setMmAddress] = useState("");
   const [foreignaddress, setForeignAddress] = useState("");
@@ -73,6 +74,7 @@ const Form = ({ closing }) => {
   const [childguardian, setChildGuardian] = useState("");
   const [childrelation, setChildrelation] = useState("");
   const [editagent, setEditAgent] = useState({});
+
   //functional
   useEffect(() => {
     if (selectedvalue == "personal") {
@@ -84,155 +86,173 @@ const Form = ({ closing }) => {
   }, [selectedvalue]);
   function item(value) {
     setAgentData({
-      license: value.license,
-      date: value.date,
-      password: value.password,
-      name: value.name,
+      id: value.id,
+      license: value.agentLicense,
+      date: value.agentDOB,
+      password: value.agentPassword,
+      name: value.agentName,
     });
   }
-
+  function selectingchild(e) {
+    setOption(e.target.id);
+    if (e.target.id == "child") {
+      setIsChild(true);
+    }
+  }
   function submitHandler() {
     setUserClick(true);
-    if (
-      userclick &&
-      policyDate &&
-      birthDate &&
-      departureDate &&
-      passportDate &&
-      benebirthDate &&
-      selectedvalue &&
-      passportNum &&
-      passportCountry &&
-      insuredName &&
-      gender &&
-      journeyto &&
-      coveragePlan &&
-      packages &&
-      insuredPh &&
-      insuredPhNumber &&
-      foreignaddress &&
-      beneficiaryname &&
-      relationship &&
-      beneficiaryPhNumber &&
-      beneficiaryPh &&
-      !childname &&
-      !childdate &&
-      !childgender &&
-      !childguardian &&
-      !childrelation
-    ) {
-      setShowPayment(true);
+    axios
+      .get(
+        `http://localhost:8080/api/v1/premiumRate?age=${formatDate(
+          birthDate
+        )}&days=${coveragePlan}&packages=${packages}&isChild=${isChild}`
+      )
+      .then((res) => {
+        if (
+          policyDate &&
+          birthDate &&
+          departureDate &&
+          passportDate &&
+          benebirthDate &&
+          selectedvalue &&
+          passportNum &&
+          passportCountry &&
+          insuredName &&
+          gender &&
+          journeyto &&
+          coveragePlan &&
+          packages &&
+          insuredPh &&
+          insuredPhNumber &&
+          foreignaddress &&
+          beneficiaryname &&
+          relationship &&
+          beneficiaryPhNumber &&
+          beneficiaryPh &&
+          !childname &&
+          !childdate &&
+          !childgender &&
+          !childguardian &&
+          !childrelation
+        ) {
+          setShowPayment(true);
 
-      setTemp({
-        passportNumber: passportNum,
-        passportIssuedDate: passportDate,
-        passportIssuedCountry: passportCountry,
-        insuredName: insuredName,
-        insuredDOB: birthDate,
-        insuredGender: gender,
-        estimateDepartureDate: departureDate,
-        journeyFrom: "Myanmar",
-        journeyTo: journeyto,
-        policyStartDate: policyDate,
-        coveragePlan: coveragePlan,
-        packages: packages,
-        insuredPhoneNumber: insuredPh + insuredPhNumber,
-        foreignContactNumber: foreignPh + foreignPhNumber,
-        fatherName: father,
-        race: insuredrace,
-        occupation: occupation,
-        maritalStatus: maritalstatus,
-        insuredEmail: email,
-        insuredAddress: mmaddress,
-        insuredAddressAboard: foreignaddress,
-        beneficiaryName: beneficiaryname,
-        beneficiaryDOB: benebirthDate,
-        beneficiaryRelationship: relationship,
-        beneficiaryPhoneNumber: beneficiaryPh + beneficiaryPhNumber,
-        beneficiaryNRC: nationalNum,
-        beneficiaryEmail: beneficiaryemail,
-        beneficiaryAddress: beneficiaryaddress,
-        agentLicense: agentdata.license,
-        agentDOB: agentdata.date,
-        agentPassword: agentdata.password,
-        agentType: selectedvalue,
-        isChild: false,
-      });
-    } else if (
-      userclick &&
-      policyDate &&
-      birthDate &&
-      departureDate &&
-      passportDate &&
-      benebirthDate &&
-      selectedvalue &&
-      passportNum &&
-      passportCountry &&
-      insuredName &&
-      gender &&
-      journeyto &&
-      coveragePlan &&
-      packages &&
-      insuredPh &&
-      insuredPhNumber &&
-      foreignaddress &&
-      beneficiaryname &&
-      relationship &&
-      beneficiaryPhNumber &&
-      beneficiaryPh &&
-      childname &&
-      childdate &&
-      childgender &&
-      childguardian &&
-      childrelation
-    ) {
-      setTemp({
-        passportNumber: passportNum,
-        passportIssuedDate: passportDate,
-        passportIssuedCountry: passportCountry,
-        insuredName: insuredName,
-        insuredDOB: birthDate,
-        insuredGender: gender,
-        estimateDepartureDate: departureDate,
-        journeyFrom: "Myanmar",
-        journeyTo: journeyto,
-        policyStartDate: policyDate,
-        coveragePlan: coveragePlan,
-        packages: packages,
-        insuredPhoneNumber: insuredPh + insuredPhNumber,
-        foreignContactNumber: foreignPh + foreignPhNumber,
-        fatherName: father,
-        race: insuredrace,
-        occupation: occupation,
-        maritalStatus: maritalstatus,
-        insuredEmail: email,
-        insuredAddress: mmaddress,
-        insuredAddressAboard: foreignaddress,
-        beneficiaryName: beneficiaryname,
-        beneficiaryDOB: benebirthDate,
-        beneficiaryRelationship: relationship,
-        beneficiaryPhoneNumber: beneficiaryPh + beneficiaryPhNumber,
-        beneficiaryNRC: nationalNum,
-        beneficiaryEmail: beneficiaryemail,
-        beneficiaryAddress: beneficiaryaddress,
-        agentLicense: agentdata.license,
-        agentDOB: agentdata.date,
-        agentPassword: agentdata.password,
-        childName: childname,
-        childDOB: childdate,
-        childGender: childgender,
-        guardianceName: childguardian,
-        childRelationship: childrelation,
-        isChild: true,
-      });
-      setShowPayment(true);
-    }
+          setTemp({
+            passportNumber: passportNum,
+            passportIssuedDate: formatDate(passportDate),
+            passportIssueCountry: passportCountry,
+            insuredName: insuredName,
+            insuredDOB: formatDate(birthDate),
+            insuredGender: gender,
+            estimateDepartureDate: formatDate(departureDate),
+            journeyFrom: "MYANMAR",
+            journeyTo: journeyto,
+            policyStartDate: formatDate(policyDate),
+            coveragePlan: coveragePlan,
+            packages: packages,
+            insuredPhoneNumber: insuredPh + insuredPhNumber,
+            foreignContactNumber: foreignPh + foreignPhNumber,
+            fatherName: father,
+            race: insuredrace,
+            occupation: occupation,
+            maritalStatus: maritalstatus,
+            insuredEmail: email,
+            insuredAddress: mmaddress,
+            insuredAddressAboard: foreignaddress,
+            beneficiaryName: beneficiaryname,
+            beneficiaryDOB: formatDate(benebirthDate),
+            beneficiaryRelationship: relationship,
+            beneficiaryPhoneNumber: beneficiaryPh + beneficiaryPhNumber,
+            beneficiaryNRC: nationalNum,
+            beneficiaryEmail: beneficiaryemail,
+            beneficiaryAddress: beneficiaryaddress,
+            child: false,
+            rate: res.data.data,
+            agentID: agentdata.id ? agentdata.id : "",
+            currency: l == "mmk" ? "MMK" : "USD",
+          });
+        } else if (
+          policyDate &&
+          birthDate &&
+          departureDate &&
+          passportDate &&
+          benebirthDate &&
+          selectedvalue &&
+          passportNum &&
+          passportCountry &&
+          insuredName &&
+          gender &&
+          journeyto &&
+          coveragePlan &&
+          packages &&
+          insuredPh &&
+          insuredPhNumber &&
+          foreignaddress &&
+          beneficiaryname &&
+          relationship &&
+          beneficiaryPhNumber &&
+          beneficiaryPh &&
+          childname &&
+          childdate &&
+          childgender &&
+          childguardian &&
+          childrelation
+        ) {
+          setTemp({
+            passportNumber: passportNum,
+            passportIssuedDate: formatDate(passportDate),
+            passportIssueCountry: passportCountry,
+            insuredName: insuredName,
+            insuredDOB: formatDate(birthDate),
+            insuredGender: gender,
+            estimateDepartureDate: formatDate(departureDate),
+            journeyFrom: "MYANMAR",
+            journeyTo: journeyto,
+            policyStartDate: formatDate(policyDate),
+            coveragePlan: coveragePlan,
+            packages: packages,
+            insuredPhoneNumber: insuredPh + insuredPhNumber,
+            foreignContactNumber: foreignPh + foreignPhNumber,
+            fatherName: father,
+            race: insuredrace,
+            occupation: occupation,
+            maritalStatus: maritalstatus,
+            insuredEmail: email,
+            insuredAddress: mmaddress,
+            insuredAddressAboard: foreignaddress,
+            beneficiaryName: beneficiaryname,
+            beneficiaryDOB: formatDate(benebirthDate),
+            beneficiaryRelationship: relationship,
+            beneficiaryPhoneNumber: beneficiaryPh + beneficiaryPhNumber,
+            beneficiaryNRC: nationalNum,
+            beneficiaryEmail: beneficiaryemail,
+            beneficiaryAddress: beneficiaryaddress,
+            childName: childname,
+            childDOB: formatDate(childdate),
+            childGender: childgender,
+            guardianceName: childguardian,
+            childRelationship: childrelation,
+            child: true,
+            agentID: agentdata.id ? agentdata.id : "",
+            rate: res.data.data,
+            currency: l == "mmk" ? "MMK" : "USD",
+          });
+          setShowPayment(true);
+        }
+      })
+      .catch((err) => console.error(err));
   }
   function selectedoption(V) {
     if (V.id == "passport") {
       setPassportCountry(V.value);
     } else if (V.id == "journey") {
       setJourneyTo(V.value);
+    } else if (V.id == "insuredPh") {
+      setInsuredPh(V.value);
+    } else if (V.id == "insuredforeignPh") {
+      setForeignPh(V.value);
+    } else if (V.id == "benePh") {
+      setBeneficiaryPh(V.value);
     }
   }
   // fetching country data
@@ -265,6 +285,15 @@ const Form = ({ closing }) => {
       name: agentdata.name,
     });
   }
+  const formatDate = (date) => {
+    if (!date) return ""; // Return empty string if date is null
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+  };
   return (
     <div className="form">
       <div className="form_container">
@@ -298,6 +327,7 @@ const Form = ({ closing }) => {
                   className="card--grey"
                   placeholderText="DD-MM-YYYY"
                   selected={passportDate}
+                  dateFormat="dd-MM-yyyy"
                   onChange={(date) => setPassportDate(date)}
                 />
                 {userclick && !passportDate && <Field />}
@@ -308,11 +338,13 @@ const Form = ({ closing }) => {
                   <br /> နိုင်ငံကူးလက်မှတ်ထုတ်ပေးသည့်နိုင်ငံ{" "}
                   <span className="red">*</span>
                 </label>
-                <ComboWithSearch
-                  data={countrydata}
-                  option={selectedoption}
-                  selection="passport"
-                />
+                <div className="countrywidth">
+                  <ComboWithSearch
+                    data={countrydata}
+                    option={selectedoption}
+                    selection="passport"
+                  />
+                </div>
                 {userclick && !passportCountry && <Field />}
               </div>
             </div>
@@ -329,7 +361,7 @@ const Form = ({ closing }) => {
                   id="self"
                   name="options"
                   checked={option == "self"}
-                  onChange={(e) => setOption(e.target.id)}
+                  onChange={(e) => selectingchild(e)}
                 />
                 <label htmlFor="self">
                   BUY FOR YOURSELF (THIS PASSPORT HOLDER)
@@ -341,7 +373,7 @@ const Form = ({ closing }) => {
                   id="child"
                   name="options"
                   checked={option == "child"}
-                  onChange={(e) => setOption(e.target.id)}
+                  onChange={(e) => selectingchild(e)}
                 />
                 <label htmlFor="child">
                   BUY FOR THE CHILD TRAVEL TOGETHER WITH THIS PASSPORT HOLDER
@@ -389,8 +421,8 @@ const Form = ({ closing }) => {
                   className={`card_select ${gender && "card--selected"}`}
                 >
                   <option value="">SELECT ONE</option>
-                  <option value="Male">MALE</option>
-                  <option value="Female">FEMALE</option>
+                  <option value="MALE">MALE</option>
+                  <option value="FEMALE">FEMALE</option>
                 </select>
                 {userclick && !gender && <Field />}
               </div>
@@ -416,7 +448,7 @@ const Form = ({ closing }) => {
                 <input
                   type="text"
                   disabled
-                  value={"Myanmar"}
+                  value={"MYANMAR"}
                   className="card_select card--selected"
                 />
               </div>
@@ -425,11 +457,13 @@ const Form = ({ closing }) => {
                   Journey To
                   <br /> ဆိုက်ရောက်မည့်နိုင်ငံ <span className="red">*</span>
                 </label>
-                <ComboWithSearch
-                  data={countrydata}
-                  option={selectedoption}
-                  selection="journey"
-                />
+                <div className="countrywidth">
+                  <ComboWithSearch
+                    data={countrydata}
+                    option={selectedoption}
+                    selection="journey"
+                  />
+                </div>
 
                 {userclick && !journeyto && <Field />}
               </div>
@@ -457,15 +491,15 @@ const Form = ({ closing }) => {
                   onChange={(e) => setCoveragePlan(e.target.value)}
                 >
                   <option value="">SELECT ONE</option>
-                  <option value="5days">5 Days</option>
-                  <option value="10days">10 Days</option>
-                  <option value="15days">15 Days</option>
-                  <option value="30days">30 Days</option>
-                  <option value="60days">60 Days</option>
-                  <option value="90days">90 Days</option>
-                  <option value="120days">120 Days</option>
-                  <option value="150days">150 Days</option>
-                  <option value="180days">180 Days</option>
+                  <option value="5">5 Days</option>
+                  <option value="10">10 Days</option>
+                  <option value="15">15 Days</option>
+                  <option value="30">30 Days</option>
+                  <option value="60">60 Days</option>
+                  <option value="90">90 Days</option>
+                  <option value="120">120 Days</option>
+                  <option value="150">150 Days</option>
+                  <option value="180">180 Days</option>
                 </select>
                 {userclick && !coveragePlan && <Field />}
               </div>
@@ -480,13 +514,13 @@ const Form = ({ closing }) => {
                   className={`card_select ${packages && "card--selected"}`}
                 >
                   <option value="">SELECT ONE</option>
-                  <option value={l == "mmk" ? "30,000,000 MMK" : "USD 10,000"}>
+                  <option value={l == "mmk" ? "30000000" : "10000"}>
                     {l == "mmk" ? "30,000,000 MMK" : "USD 10,000"}
                   </option>
-                  <option value={l == "mmk" ? "90,000,000 MMK" : "USD 30,000"}>
+                  <option value={l == "mmk" ? "90000000" : "30000"}>
                     {l == "mmk" ? "90,000,000 MMK" : "USD 30,000"}
                   </option>
-                  <option value={l == "mmk" ? "150,000,000 MMK" : "USD 50,000"}>
+                  <option value={l == "mmk" ? "150000000" : "50000"}>
                     {l == "mmk" ? "150,000,000 MMK" : "USD 50,000"}
                   </option>
                 </select>
@@ -498,18 +532,12 @@ const Form = ({ closing }) => {
                   ဆက်သွယ်ရမည့်ဖုန်းနံပါတ် <span className="red">*</span>
                 </label>
                 <div className="phone_number">
-                  <select
-                    onChange={(e) => setInsuredPh(e.target.value)}
-                    className={`card_select ${insuredPh && "card--selected"}`}
-                  >
-                    <option hidden>SELECT</option>
+                  <ComboWithSearch
+                    data={countrydata}
+                    option={selectedoption}
+                    selection="insuredPh"
+                  />
 
-                    {countrydata.map((item, index) => (
-                      <option value={`${item.countryCode}`} key={index}>
-                        {item.countryCode}
-                      </option>
-                    ))}
-                  </select>
                   <input
                     type="text"
                     name="phoneNumber"
@@ -528,18 +556,12 @@ const Form = ({ closing }) => {
                   <br /> ဆက်သွယ်ရမည့်နိုင်ငံခြားဖုန်းနံပါတ်{" "}
                 </label>
                 <div className="phone_number">
-                  <select
-                    onChange={(e) => setForeignPh(e.target.value)}
-                    className={`card_select ${foreignPh && "card--selected"}`}
-                  >
-                    <option hidden>SELECT</option>
+                  <ComboWithSearch
+                    data={countrydata}
+                    option={selectedoption}
+                    selection="insuredforeignPh"
+                  />
 
-                    {countrydata.map((item, index) => (
-                      <option value={`${item.countryCode}`} key={index}>
-                        {item.countryCode}
-                      </option>
-                    ))}
-                  </select>
                   <input
                     type="text"
                     name="foreignNumber"
@@ -597,8 +619,9 @@ const Form = ({ closing }) => {
                     <input
                       type="radio"
                       name="maritalStatus"
+                      checked={maritalstatus == "SINGLE"}
                       id="single"
-                      value="single"
+                      value="SINGLE"
                       onChange={(e) => setMaritalStatus(e.target.value)}
                     />
                     <label htmlFor="single">Single</label>
@@ -607,8 +630,9 @@ const Form = ({ closing }) => {
                     <input
                       type="radio"
                       name="maritalStatus"
+                      checked={maritalstatus == "MARRIED"}
                       id="married"
-                      value="married"
+                      value="MARRIED"
                       onChange={(e) => setMaritalStatus(e.target.value)}
                     />
                     <label htmlFor="married">Married</label>
@@ -709,8 +733,8 @@ const Form = ({ closing }) => {
                     className={`card_select ${childgender && "card--selected"}`}
                   >
                     <option value="">SELECT</option>
-                    <option value="male">MALE</option>
-                    <option value="female">FEMALE</option>
+                    <option value="MALE">MALE</option>
+                    <option value="FEMALE">FEMALE</option>
                   </select>
 
                   {userclick && !childgender && <Field />}
@@ -804,20 +828,11 @@ const Form = ({ closing }) => {
                   <span className="red">*</span>
                 </label>
                 <div className="phone_number">
-                  <select
-                    onChange={(e) => setBeneficiaryPh(e.target.value)}
-                    className={`card_select ${
-                      beneficiaryPh && "card--selected"
-                    }`}
-                  >
-                    <option hidden>SELECT</option>
-
-                    {countrydata.map((item, index) => (
-                      <option value={`${item.countryCode}`} key={index}>
-                        {item.countryCode}
-                      </option>
-                    ))}
-                  </select>
+                  <ComboWithSearch
+                    data={countrydata}
+                    option={selectedoption}
+                    selection="benePh"
+                  />
                   <input
                     type="text"
                     name="phoneNumber"
@@ -966,7 +981,12 @@ const Form = ({ closing }) => {
                     Agent Name
                     <span className="red">*</span>
                   </label>
-                  <input type="text" disabled placeholder="AGENT NAME" />
+                  <input
+                    type="text"
+                    disabled
+                    placeholder="AGENT NAME"
+                    value={agentdata.name}
+                  />
                   {userclick && !agentdata.name && <Field />}
                 </div>
                 <button className="agent_btn" onClick={editAgent}>

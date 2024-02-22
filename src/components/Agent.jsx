@@ -4,31 +4,48 @@ import React, { useEffect, useState } from "react";
 import Field from "../pages/Field";
 import "./agent.css";
 import DatePicker from "react-datepicker";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 
-const Agent = ({ props, item , userclick}) => {
-  const [agentBirthDate, setAgentBirthDate] = useState();
-  const [message, setMessage] = useState();
-  const [data, setData] = useState({});
-  useEffect(()=>{
-    if(userclick){
-      setData({...data,license: userclick.license})
-      setAgentBirthDate(userclick.date)
-    }
-  },[userclick])
-  useEffect(() => {
-    if (message) {
-      props(message);
-    }
-  }, [message]);
-  useEffect(()=>{
-    if(agentBirthDate){
-        setData({ ...data, date: agentBirthDate });
-    }
-  },[agentBirthDate])
+const Agent = ({ props, item, userclick }) => {
+  const location = useLocation();
+  const [agentname, setAgentName] = useState("");
+  const [agentlicense, setAgentLicense] = useState("");
+  const [agentBirthDate, setAgentBirthDate] = useState("");
+  const [error, setError] = useState();
+
+  const formatDate = (date) => {
+    if (!date) return ""; // Return empty string if date is null
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `${year}-${month}-${day}`;
+  };
+  function messageback() {
+    props(true);
+  }
   function agentData() {
-    if(data){
-        item(data)
-    }
+    axios
+      .get(
+        `${
+          location.pathname == "/form/mmk"
+            ? `http://localhost:8080/api/v1/agent/checkMMKVar?agentDOB=${formatDate(
+                agentBirthDate
+              )}&agentLicense=${agentlicense}&agentType=Verification`
+            : `http://localhost:8080/api/v1/agent/checkUSDVar?agentName=${agentname}&agentLicense=${agentlicense}&agentType=Verification`
+        }`
+      )
+      .then((res) => {
+        item(res.data);
+        props(true);
+        setError(false);
+      })
+      .catch((error) => {
+        console.error("The error is " + error);
+        setError(true);
+      });
   }
   return (
     <div className="overlay">
@@ -38,7 +55,7 @@ const Agent = ({ props, item , userclick}) => {
           <FontAwesomeIcon
             icon={faXmark}
             className="back_icon"
-            onClick={() => setMessage(true)}
+            onClick={messageback}
           />
         </div>
         <span className="line"></span>
@@ -51,24 +68,40 @@ const Agent = ({ props, item , userclick}) => {
               type="text"
               placeholder="ENTER AGENT LICENSE NO."
               name="license"
-              value={data.license}
-              onChange={(e) => setData({ ...data, license: e.target.value })}
+              value={agentlicense}
+              onChange={(e) => setAgentLicense(e.target.value)}
             />
             {userclick.userclick && !data.license && <Field />}
           </div>
-          <div className="agent_license">
-            <label>
-              Date Of Birth <span className="red">*</span>
-            </label>
-            <DatePicker
-              className="agent_date"
-              placeholderText="DD-MM-YYYY"
-              selected={agentBirthDate}
-              value={agentBirthDate}
-              onChange={(date)=> setAgentBirthDate(date)}
-            />
-            {userclick.userclick && !agentBirthDate && <Field />}
-          </div>
+          {location.pathname == "/form/mmk" && (
+            <div className="agent_license">
+              <label>
+                Date Of Birth <span className="red">*</span>
+              </label>
+              <DatePicker
+                className="agent_date"
+                placeholderText="DD-MM-YYYY"
+                selected={agentBirthDate}
+                onChange={(date) => setAgentBirthDate(date)}
+              />
+              {userclick.userclick && !agentBirthDate && <Field />}
+            </div>
+          )}
+          {location.pathname == "/form/usd" && (
+            <div className="agent_license">
+              <label>
+                Agent Name <span className="red">*</span>
+              </label>
+              <input
+                type="text"
+                value={agentname}
+                placeholder="Agent Name"
+                onChange={(e) => setAgentName(e.target.value)}
+              />
+              {userclick.userclick && !agentname && <Field />}
+            </div>
+          )}
+          {error && <div className="red">Wrong Password</div>}
         </div>
         <button className="agent_submit" onClick={agentData}>
           Check Agent

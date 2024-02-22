@@ -68,3 +68,40 @@
   border-color: #074da1;
   transition-duration: 0.5s;
 }
+.pdf_table {
+  display: flex;
+  margin: 20px 0;
+}
+.pdf_contents {
+  width: 80%;
+  border: 1px solid black;
+  border-right: 0;
+}
+.pdf_downloadbtn {
+  width: 20%;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pdf_downloadbtn button {
+  padding: 10px 20px;
+}
+.pdf_row {
+  display: flex;
+}
+.pdf_row p {
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+.pdf_row p:last-child {
+  border-right: 0;
+}
+.pdf_row--bottom p {
+  border-bottom: 0;
+}

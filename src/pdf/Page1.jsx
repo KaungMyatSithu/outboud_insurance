@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Document,
   Page,
@@ -12,6 +12,7 @@ import ulink from "../img/Ulink_Logo.png";
 import qr from "../img/qr_code.png";
 import tbBenefits from "../img/tableOfBenefits.png";
 import { format } from "date-fns";
+import axios from "axios";
 
 const styles = StyleSheet.create({
   //Container
@@ -171,8 +172,37 @@ const styles = StyleSheet.create({
   },
 });
 
-function Page1() {
+function Page1({ id }) {
+  const [data, setData] = useState();
+  const [age, setAge] = useState();
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:8080/api/v1/outboundProposal/findByCertificateId?id=${id}`
+      )
+      .then((res) => {
+        setData(res.data.data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    if (data?.insuredPerson.insuredDOB) {
+      const [day, month, year] = !data?.insuredPerson.child
+        ? data?.insuredPerson.insuredDOB.split("-").map(Number)
+        : data?.childDOB.split("-").map(Number);
+      const birthDateObj = new Date(year, month - 1, day);
+      const currentDate = new Date();
+      const ageDiffMs = currentDate - birthDateObj;
+      const ageDate = new Date(ageDiffMs);
+      const calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+      setAge(calculatedAge);
+    }
+  }, [data]);
+
   const currentDate = format(new Date(), "dd MMMM, yyyy");
+
   return (
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
@@ -196,11 +226,11 @@ function Page1() {
           <View style={styles.bindV1}>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Insurance Period</Text>
-              <Text>: 15Days ( From 10-02-2024 To 14-02-2024 )</Text>
+              <Text>: {data?.coveragePlan} Days</Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Certificate Number</Text>
-              <Text>: OTA/2402/0000058/001</Text>
+              <Text>: {data?.certificateID}</Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Agent/Agency name </Text>
@@ -208,7 +238,7 @@ function Page1() {
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Policy Holder</Text>
-              <Text>: Tamrakar Tuladhar Bina</Text>
+              <Text>:{data?.insuredPerson.insuredName}</Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Covid-19 coverage</Text>
@@ -232,11 +262,14 @@ function Page1() {
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Destination To</Text>
-              <Text>: AFGHANISTAN</Text>
+              <Text>: {data?.journeyTo}</Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>PP/Country</Text>
-              <Text>: PA0942031 Nepal </Text>
+              <Text>
+                : {data?.insuredPerson.passportNumber}{" "}
+                {data?.insuredPerson.passportIssueCountry}{" "}
+              </Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Deductible /Person</Text>
@@ -248,11 +281,11 @@ function Page1() {
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Payment Date</Text>
-              <Text>: 25 Jan 2023</Text>
+              <Text>:{currentDate}</Text>
             </View>
             <View style={styles.innerBind}>
               <Text style={styles.innerBindTxt}>Premium</Text>
-              <Text>: 21,000.00</Text>
+              <Text>: {data?.premiumRate}</Text>
             </View>
           </View>
         </View>
@@ -283,19 +316,30 @@ function Page1() {
           {/* Sec Row */}
           <View style={styles.tblCon2}>
             <View style={styles.tblsec}>
-              <Text> Tamrakar Tuladhar Bina</Text>
+              <Text>
+                {!data?.insuredPerson.child
+                  ? data?.insuredPerson.insuredName
+                  : data?.childName}
+              </Text>
             </View>
             <View style={styles.tblsec}>
-              <Text>4 Feb 1998 </Text>
+              <Text>
+                {!data?.insuredPerson.child
+                  ? data?.insuredPerson.insuredDOB
+                  : data?.childDOB}
+              </Text>
             </View>
             <View style={styles.tblsec}>
-              <Text>27</Text>
+              <Text>{age}</Text>
             </View>
             <View style={styles.tblsec}>
-              <Text>5 Days</Text>
+              <Text>{data?.coveragePlan}</Text>
             </View>
             <View style={styles.tblsec1}>
-              <Text>PA0942031</Text>
+              <Text>
+                {data?.insuredPerson.passportNumber}{" "}
+                {data?.insuredPerson.passportIssueCountry}
+              </Text>
             </View>
           </View>
         </View>

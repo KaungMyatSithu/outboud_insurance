@@ -28,12 +28,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     display: "flex",
-    
   },
   page: {
     flexDirection: "row",
     backgroundColor: "#FFFFFF",
-
   },
   section: {
     width: "95%",
@@ -42,9 +40,9 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
-const MyDocument = () => (
-  <Document style={styles.container} title="myanma_insurnace.pdf">
-    <Page1 />
+const MyDocument = ({ id }) => (
+  <Document style={styles.container} title="myanma_insurnace.pdf" file={{ fileName: 'outbound_insurance.pdf' }}>
+    <Page1 id={id} />
     <Page2 />
     <Page3 />
     <Page4 />

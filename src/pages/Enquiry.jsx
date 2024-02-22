@@ -1,11 +1,24 @@
-
 import React, { useEffect, useState } from "react";
 import "./enquiry.css";
 import ComboWithSearch from "../components/ComboWithSearch";
 import axios from "axios";
+import PdfOverlay from "../components/PdfOverlay";
 
 const Enquiry = () => {
   const [countrydata, setCountryData] = useState([]);
+  const [searchcountry, setSearchCountry] = useState();
+  const [searchnum, setSearchNum] = useState();
+  const [pdfdata, setPdfData] = useState([]);
+  const [age, setAge] = useState();
+  const [showmodal, setShowModal] = useState(null);
+
+  function back(value) {
+    setShowModal(value);
+  }
+
+  function showHandler(id) {
+    setShowModal(id);
+  }
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/v1/countries")
@@ -23,13 +36,34 @@ const Enquiry = () => {
   }, []);
 
   function selectedoption(V) {
-    if (V.id == "passport") {
-      setPassportCountry(V.value);
-    } else if (V.id == "journey") {
-      setJourneyTo(V.value);
+    if (V.id == "country") {
+      setSearchCountry(V.value);
     }
   }
+  const searchHandler = () => {
+    axios
+      .get(
+        `http://localhost:8080/api/v1/outboundProposal?passportNo=${searchnum}&passportIssueCountry=${searchcountry}`
+      )
+      .then((res) => setPdfData(res.data.data))
+      .catch((err) => console.error(err));
+  };
+  useEffect(() => {
+    pdfdata.map((item) => {
+      if (item?.insuredPerson.insuredDOB) {
+        const [day, month, year] = !item?.insuredPerson.child
+          ? item?.insuredPerson.insuredDOB.split("-").map(Number)
+          : item?.childDOB.split("-").map(Number);
+        const birthDateObj = new Date(year, month - 1, day);
+        const currentDate = new Date();
+        const ageDiffMs = currentDate - birthDateObj;
+        const ageDate = new Date(ageDiffMs);
+        const calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
 
+        setAge(calculatedAge);
+      }
+    });
+  }, [pdfdata]);
   return (
     <>
       <div className="enquiry-container">
@@ -46,6 +80,7 @@ const Enquiry = () => {
                   type="text"
                   placeholder=". . ."
                   className="category-input"
+                  onChange={(e) => setSearchNum(e.target.value)}
                 />
               </div>
               <div className="category">
@@ -55,11 +90,53 @@ const Enquiry = () => {
                 <ComboWithSearch
                   data={countrydata}
                   option={selectedoption}
-                  selection="passport"
+                  selection="country"
                 />
               </div>
             </div>
-            <button className="search-btn">Search</button>
+            <button className="search-btn" onClick={searchHandler}>
+              Search
+            </button>
+
+            <div className="pdf_bloc">
+              {pdfdata.map((item, index) => (
+                <div className="pdf_table" key={index}>
+                  <div className="pdf_contents">
+                    <div className="pdf_row">
+                      <p>Insured's Name</p>
+                      <p>Date of Birth</p>
+                      <p>Age</p>
+                      <p>Insurance Period</p>
+                      <p>Passport No</p>
+                    </div>
+                    <div className="pdf_row pdf_row--bottom">
+                      <p>
+                        {item.insuredPerson.child
+                          ? item.childName
+                          : item.insuredPerson.insuredName}
+                      </p>
+                      <p>
+                        {item.insuredPerson.child
+                          ? item.childDOB
+                          : item.insuredPerson.insuredDOB}
+                      </p>
+                      <p>{age}</p>
+                      <p>{item?.coveragePlan}</p>
+                      <p>
+                        {item?.insuredPerson.passportNumber}{" "}
+                        {item?.insuredPerson.passportIssueCountry}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="pdf_downloadbtn">
+                    <button onClick={() => showHandler(item?.certificateID)}>
+                      Download Here!
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {showmodal && <PdfOverlay back={back} id={showmodal} />}
+            </div>
           </div>
         </div>
       </div>
